@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+	<div class="row justify-content-center">
+		<div class="col-md-6 col-lg-5">
+            <div class="neo-card mt-5" style="border-width: 4px; box-shadow: var(--neo-shadow-lg);">
+                <div class="text-center mb-4">
+                    <h1 class="neo-bold" style="font-size: 2.5rem; text-transform: uppercase;">{% trans %}Login{% endtrans %}</h1>
+                    <div style="width: 50px; height: 4px; background: var(--neo-blue); margin: 10px auto;"></div>
+                </div>
+
+                {% include "components/errors.html" %}
+
+                {% if integrations.mlc() %}
+                <a class="neo-button neo-button-secondary w-100 mb-3" href="{{ url_for('auth.oauth_login') }}">
+                    Login with Major League Cyber
+                </a>
+                <div class="text-center my-3 neo-bold">OR</div>
+                {% endif %}
+
+                {% with form = Forms.auth.LoginForm() %}
+                <form method="post" accept-charset="utf-8" autocomplete="off">
+                    <div class="form-group mb-4">
+                        <label class="neo-bold text-uppercase">{{ form.name.label.text }}</label>
+                        {{ form.name(class="neo-input", value=name, placeholder="Username or Email") }}
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="neo-bold text-uppercase">{{ form.password.label.text }}</label>
+                        {{ form.password(class="neo-input", value=password, placeholder="Password") }}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="{{ url_for('auth.reset_password') }}" style="font-weight: bold; color: var(--neo-gray-dark); text-decoration: underline;">
+                            Forgot password?
+                        </a>
+                        <button type="submit" class="neo-button neo-button-primary">
+                            SUBMIT <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                    {{ form.nonce() }}
+                </form>
+                {% endwith %}
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock %}

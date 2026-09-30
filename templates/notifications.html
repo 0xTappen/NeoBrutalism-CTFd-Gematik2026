@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="jumbotron utility-page-hero">
+		<div class="container">
+			<h1><i class="fas fa-bell mr-3" aria-hidden="true"></i>Notifications</h1>
+		</div>
+	</div>
+	<div class="container utility-page notifications-page">
+		{% if not notifications %}
+		<div class="neo-card utility-empty-state text-center">
+			<i class="far fa-bell fa-3x mb-3" aria-hidden="true"></i>
+			<h2 class="mb-2">ALL CAUGHT UP</h2>
+			<p class="mb-0">No notifications yet.</p>
+		</div>
+		{% endif %}
+		{% for notification in notifications %}
+		<article class="neo-card notification-card mb-4">
+			<div class="card-body">
+				<div class="notification-heading">
+					<i class="fas fa-bell" aria-hidden="true"></i>
+					<h3 class="card-title mb-0">{{ notification.title }}</h3>
+				</div>
+				<blockquote class="blockquote mb-0">
+					<p>{{ notification.html }}</p>
+					<small class="notification-time"><span data-time="{{ notification.date | isoformat }}"></span></small>
+				</blockquote>
+			</div>
+		</article>
+		{% endfor %}
+	</div>
+{% endblock %}
+
+{% block entrypoint %}
+	<script defer src="{{ url_for('views.themes', path='js/pages/notifications.js', v='20260716-utility-pages') }}"></script>
+{% endblock %}

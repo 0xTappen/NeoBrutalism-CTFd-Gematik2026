@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-12 text-center">
+            <h1 class="neo-bold neo-page-title" style="font-size: 3.5rem; text-transform: uppercase;"><i class="fas fa-users" aria-hidden="true"></i>{% trans %}Teams{% endtrans %}</h1>
+            <div style="width: 100px; height: 6px; background: var(--neo-blue); margin: 15px auto;"></div>
+        </div>
+    </div>
+
+    <div class="neo-card neo-search-card mb-5" style="border-width: 4px;">
+        {% if q and field %}
+        <div class="text-center mb-4 neo-bold">
+            <h5 style="color: var(--neo-gray-dark);">
+                Searching for teams with <strong style="color: var(--neo-black);">{{ field }}</strong> matching <strong style="color: var(--neo-black);">{{ q }}</strong>
+            </h5>
+            <h6 style="color: var(--neo-gray-dark);">
+                Page {{ teams.page }} of {{ teams.total }} results
+            </h6>
+        </div>
+        {% endif %}
+
+        {% with form = Forms.teams.PublicTeamSearchForm(field=field, q=q) %}
+        <form method="GET" class="row">
+            <div class="col-md-3 mb-3 mb-md-0">
+                {{ form.field(class="neo-native-select", id="team-search-field") }}
+                <div class="dropdown neo-form-select" data-neo-select="#team-search-field" data-neo-select-icons="team">
+                    <button class="neo-form-select-toggle dropdown-toggle" type="button"
+                            aria-haspopup="true" aria-expanded="false">
+                        <span class="neo-form-select-label"></span>
+                    </button>
+                    <div class="dropdown-menu neo-form-select-menu"></div>
+                </div>
+            </div>
+            <div class="col-md-7 mb-3 mb-md-0">
+                {{ form.q(class="neo-input", placeholder="Search for matching teams") }}
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="neo-button neo-button-primary neo-search-submit w-100">
+                    <i class="fas fa-search" aria-hidden="true"></i> SEARCH
+                </button>
+            </div>
+        </form>
+        {% endwith %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="neo-table">
+                <thead>
+                <tr>
+                    <th><i class="fas fa-users table-heading-icon" aria-hidden="true"></i>TEAM</th>
+                    <th class="text-center"><i class="fas fa-globe table-heading-icon" aria-hidden="true"></i>WEBSITE</th>
+                    <th class="d-none d-md-table-cell d-lg-table-cell"><i class="fas fa-building table-heading-icon" aria-hidden="true"></i>AFFILIATION</th>
+                    <th class="d-none d-md-table-cell d-lg-table-cell text-center"><i class="fas fa-flag table-heading-icon" aria-hidden="true"></i>COUNTRY</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for team in teams.items %}
+                    <tr>
+                        <td class="neo-bold" style="font-size: 1.125rem;">
+                            {% if scores_visible() %}
+                                <a href="{{ url_for('teams.public', team_id=team.id) }}" style="color: var(--neo-text);">
+                                    {{ team.name | truncate(50) }}
+                                </a>
+                            {% else %}
+                                <span>{{ team.name | truncate(50) }}</span>
+                            {% endif %}
+                            {% if team.oauth_id %}
+                                <a href="https://majorleaguecyber.org/t/{{ team.name }}">
+                                    <span class="neo-badge neo-badge-blue ml-2">Official</span>
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if team.website and (team.website.startswith('http://') or team.website.startswith('https://')) %}
+                                <a href="{{ team.website }}" target="_blank" rel="noopener" style="color: var(--neo-blue);">
+                                    <i class="fas fa-external-link-alt" data-toggle="tooltip" data-placement="top"
+                                        title="{{ team.website }}"></i>
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td class="d-none d-md-table-cell d-lg-table-cell" style="color: var(--neo-gray-dark); font-weight: bold;">
+                            {% if team.affiliation %}
+                                {% if team.affiliation | length > 50 %}
+                                    <span data-toggle="tooltip" data-placement="top" title="{{ team.affiliation }}">
+                                        {% if team.affiliation %}{{ team.affiliation | truncate(50) }}{% endif %}
+                                    </span>
+                                {% else %}
+                                    <span>
+                                        {% if team.affiliation %}{{ team.affiliation | truncate(50) }}{% endif %}
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td class="d-none d-md-table-cell d-lg-table-cell text-center">
+                            {% if team.country %}
+                                <span class="neo-badge neo-badge-yellow">
+                                    <i class="flag-{{ team.country.lower() }} pr-1"></i>
+                                    {{ lookup_country_code(team.country) }}
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% if teams.pages > 1 %}
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <div class="neo-bold" style="font-size: 1.25rem;">PAGE</div>
+                <div class="mt-3 d-inline-flex align-items-center gap-3">
+                    {% if teams.page != 1 %}
+                    <a href="{{ prev_page }}" class="neo-button neo-button-secondary py-1 px-3">&lt;</a>
+                    {% endif %}
+                    <select class="neo-select w-auto py-1" onchange="window.location.href=this.value">
+                        {% for page in range(1, teams.pages + 1) %}
+                        <option value="?page={{ page }}{% if q %}&q={{ q }}{% endif %}{% if field %}&field={{ field }}{% endif %}" {% if teams.page == page %}selected{% endif %}>{{ page }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if teams.next_num %}
+                    <a href="{{ next_page }}" class="neo-button neo-button-secondary py-1 px-3">&gt;</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

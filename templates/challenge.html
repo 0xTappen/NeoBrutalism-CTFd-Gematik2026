@@ -1,0 +1,205 @@
+<div class="modal-dialog neo-modal" role="document">
+	<div class="modal-content" style="border: none; background: transparent;">
+		<div class="modal-body" style="background: var(--neo-surface); color: var(--neo-text); border: var(--neo-border); box-shadow: var(--neo-shadow-lg); padding: 0;">
+            <div class="d-flex justify-content-between align-items-center" style="background: var(--neo-blue); color: var(--neo-white); padding: 1rem 1.5rem; border-bottom: var(--neo-border);">
+                <h4 class="m-0 neo-bold text-uppercase challenge-modal-title"><i class="fas fa-flag" aria-hidden="true"></i>Challenge</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: var(--neo-white); opacity: 1; text-shadow: none;">
+                    <span aria-hidden="true" style="font-size: 1.5rem; font-weight: bold;">&times;</span>
+                </button>
+            </div>
+            
+            <div style="padding: 1.5rem;">
+                <ul class="nav nav-tabs d-flex mb-4 challenge-modal-tabs" style="border-bottom: 2px solid var(--neo-outline); padding-bottom: 5px;">
+                    <li class="nav-item mr-3">
+                        <a class="nav-link active neo-bold" data-toggle="tab" href="#challenge" role="tab" style="color: var(--neo-text); border: none; padding: 5px 10px; background: transparent;"><i class="fas fa-align-left mr-2" aria-hidden="true"></i>DESCRIPTION</a>
+                    </li>
+                    {% block submissions %}
+                        {% if Configs.view_self_submissions %}
+                        <li class="nav-item mr-3">
+                            <a class="nav-link challenge-submissions neo-bold" data-toggle="tab" href="#submissions" role="tab" style="color: var(--neo-muted); border: none; padding: 5px 10px; background: transparent;">
+                                <i class="fas fa-history mr-2" aria-hidden="true"></i>SUBMISSIONS
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endblock %}
+                    {% block solves %}
+                        <li class="nav-item">
+                            <a class="nav-link challenge-solves neo-bold" data-toggle="tab" href="#solves" role="tab" style="color: var(--neo-muted); border: none; padding: 5px 10px; background: transparent;">
+                                {% if solves != None %}
+                                    <i class="fas fa-check-circle mr-2" aria-hidden="true"></i>{{ solves }} {% if solves > 1 %}SOLVES{% else %}SOLVE{% endif %}
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endblock %}
+                </ul>
+                <div role="tabpanel">
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade show active" id="challenge">
+                            <h2 class='challenge-name neo-bold text-uppercase mb-2' style="font-size: 2rem;">
+                                {{ challenge.name }}
+                            </h2>
+                            <h3 class="challenge-value neo-bold mb-4" style="color: var(--neo-blue); font-size: 1.5rem;">
+                                <i class="fas fa-coins mr-2" aria-hidden="true"></i>{{ challenge.value }} PTS
+                            </h3>
+                            <div class="challenge-context-row mb-3" aria-live="polite"></div>
+
+                            <div class="challenge-tags mb-4">
+                                {% block tags %}
+                                    {% for tag in tags %}
+                                        {% set normalized_tag = tag | lower %}
+                                        {% if normalized_tag not in ['easy', 'medium', 'hard'] %}
+                                            <span class='neo-badge neo-badge-yellow challenge-tag mr-2'>{{ tag }}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endblock %}
+                            </div>
+
+                            <div class="challenge-desc mb-4" style="font-size: 1.125rem; line-height: 1.6;">{% block description %}{{ challenge.html }}{% endblock %}</div>
+
+                            <div class="challenge-connection-info mb-4">
+                                {% block connection_info %}
+                                    {% set conn = challenge.connection_info %}
+                                    {% if not conn %}
+                                    {% elif conn.startswith("http") %}
+                                        <a href="{{ conn }}" target="_blank" class="neo-bold" style="text-decoration: underline;">{{ conn }}</a>
+                                    {% else %}
+                                        <div style="background: var(--neo-surface-raised); border: var(--neo-border); padding: 10px; font-family: monospace; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+                                            <code style="color: var(--neo-text); font-size: 1rem;">{{ conn }}</code>
+                                            <button class="neo-button neo-button-secondary py-1 px-2" onclick="navigator.clipboard.writeText('{{ conn }}'); this.innerText='COPIED!'; setTimeout(() => this.innerText='COPY', 2000);">COPY</button>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+                            </div>
+
+                            <div class="challenge-hints hint-row row mb-4">
+                                {% for hint in hints %}
+                                    <div class='col-md-12 hint-button-wrapper mb-2'>
+                                        <button class="neo-button w-100 btn-hint load-hint" data-hint-id="{{ hint.id }}">
+                                            {% if hint.content %}
+                                                <i class="fas fa-lightbulb mr-2" aria-hidden="true"></i>VIEW HINT
+                                            {% else %}
+                                                {% if hint.cost %}
+                                                    <i class="fas fa-lock mr-2" aria-hidden="true"></i>UNLOCK HINT ({{ hint.cost }} PTS)
+                                                {% else %}
+                                                    <i class="fas fa-lightbulb mr-2" aria-hidden="true"></i>VIEW HINT
+                                                {% endif %}
+                                            {% endif %}
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="row challenge-files pb-3">
+                                {% for file in files %}
+                                    <div class='col-md-6 file-button-wrapper mb-3'>
+                                        <a class='neo-button neo-button-secondary w-100 btn-file text-truncate'
+                                        href='{{ file }}'>
+                                            <i class="fas fa-download mr-2"></i>
+                                            <small class="neo-bold">
+                                                {% set segments = file.split('/') %}
+                                                {% set file = segments | last %}
+                                                {% set token = file.split('?') | last %}
+                                                {% if token %}
+                                                    {{ file | replace("?" + token, "") }}
+                                                {% else %}
+                                                    {{ file }}
+                                                {% endif %}
+                                            </small>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            {% if max_attempts > 0 %}
+                            <div class="mb-3">
+                                <p class="neo-bold" style="color: var(--neo-muted);">
+                                    ATTEMPTS: {{ attempts }}/{{ max_attempts }}
+                                </p>
+                            </div>
+                            {% endif %}
+
+                            <div class="ctfdpp-submit-metadata mt-4">
+                                <div class="ctfdpp-metadata-heading">
+                                    <label class="neo-bold mb-0" for="ai-source-0">
+                                        <i class="fas fa-link mr-2" aria-hidden="true"></i>AI SOURCE
+                                    </label>
+                                    <button id="ctfdpp-add-ai-source" class="neo-icon-button" type="button" aria-label="Add AI source" title="Add AI source">
+                                        <i class="fas fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div id="ctfdpp-ai-sources" class="ctfdpp-ai-sources"></div>
+                                <label class="neo-bold mt-3 mb-2 d-block" for="solver-files">
+                                    <i class="fas fa-file-code mr-2" aria-hidden="true"></i>SOLVER / SCRIPT
+                                </label>
+                                <input id="solver-files" class="neo-input w-100" type="file" name="solver" multiple>
+                            </div>
+
+                            <div class="submit-row d-flex gap-3 mt-4">
+                                <div class="form-group w-100 mb-0">
+                                    {% block input %}<div class="challenge-answer-field">
+                                        <input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}">
+                                        <input id="challenge-input" class="neo-input w-100" type="text" name="submission" placeholder="Enter Flag (e.g. Gematik2026{...})"/>
+                                        <i class="fas fa-flag" aria-hidden="true"></i>
+                                    </div>{% endblock %}
+                                </div>
+                                <div class="form-group mb-0" style="margin-left: 10px;">
+                                    {% block submit %}
+                                    <button id="challenge-submit" class="neo-button neo-button-primary challenge-submit h-100" type="submit">
+                                        <i class="fas fa-paper-plane mr-2" aria-hidden="true"></i>SUBMIT
+                                    </button>
+                                    {% endblock %}
+                                </div>
+                            </div>
+
+                            <div class="row notification-row mt-3">
+                                <div class="col-md-12">
+                                    <div id="result-notification" class="alert alert-dismissable text-center w-100 neo-bold"
+                                        role="alert" style="display: none; border: var(--neo-border); box-shadow: var(--neo-shadow-sm);">
+                                        <strong id="result-message"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if Configs.view_self_submissions %}
+                        <div role="tabpanel" class="tab-pane fade" id="submissions">
+                            <div class="challenge-submissions-state text-center py-4">
+                                <i class="fas fa-circle-notch fa-spin mr-2" aria-hidden="true"></i>LOADING SUBMISSIONS...
+                            </div>
+                            <div class="table-responsive" hidden>
+                                <table class="neo-table">
+                                    <thead>
+                                    <tr>
+                                        <th><i class="fas fa-check-circle table-heading-icon" aria-hidden="true"></i>Result</th>
+                                        <th><i class="fas fa-flag table-heading-icon" aria-hidden="true"></i>Submission</th>
+                                        <th><i class="fas fa-clock table-heading-icon" aria-hidden="true"></i>Time</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="challenge-submissions-list"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div role="tabpanel" class="tab-pane fade" id="solves">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="neo-table">
+                                        <thead>
+                                        <tr>
+                                            <th><i class="fas fa-user table-heading-icon" aria-hidden="true"></i>Name</th>
+                                            <th><i class="fas fa-clock table-heading-icon" aria-hidden="true"></i>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="challenge-solves-names">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>

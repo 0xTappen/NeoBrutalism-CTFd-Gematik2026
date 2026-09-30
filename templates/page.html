@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% if request.view_args and request.view_args.get("route") == "index" %}
+		{% include "index.html" %}
+	{% else %}
+	<div class="container">
+	{{ content | safe }}
+	</div>
+	{% endif %}
+{% endblock %}

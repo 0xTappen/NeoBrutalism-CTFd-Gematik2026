@@ -1,0 +1,80 @@
+:root {
+  --neo-blue: #2563eb;
+  --neo-blue-dark: #1d4ed8;
+  --neo-blue-light: #60a5fa;
+  --neo-blue-soft: #dbeafe;
+  --neo-blue-electric: #38bdf8;
+  
+  --neo-black: #111111;
+  --neo-white: #ffffff;
+  --neo-off-white: #f8fafc;
+  --neo-gray: #d1d5db;
+  --neo-gray-dark: #4b5563;
+  --neo-yellow: #facc15;
+  --neo-green: #22c55e;
+  --neo-red: #ef4444;
+  --neo-orange: #fb923c;
+
+  --neo-page-bg: var(--neo-off-white);
+  --neo-surface: var(--neo-white);
+  --neo-surface-raised: var(--neo-white);
+  --neo-text: var(--neo-black);
+  --neo-muted: var(--neo-gray-dark);
+  --neo-outline: var(--neo-black);
+  --neo-shadow-color: var(--neo-black);
+  
+  --neo-border-width: 3px;
+  --neo-border: var(--neo-border-width) solid var(--neo-outline);
+  
+  --neo-shadow-sm: 3px 3px 0 var(--neo-shadow-color);
+  --neo-shadow-md: 6px 6px 0 var(--neo-shadow-color);
+  --neo-shadow-lg: 10px 10px 0 var(--neo-shadow-color);
+  
+  --neo-radius: 0px; /* Neo Brutalism typically has hard edges or very slight curves */
+  
+  --neo-font-family: 'Fredoka', 'Raleway', 'RalewayOffline', system-ui, sans-serif;
+  --neo-display-font: var(--neo-font-family);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --neo-gray: #374151;
+  --neo-gray-dark: #cbd5e1;
+  --neo-blue: #2563eb;
+  --neo-blue-dark: #60a5fa;
+  --neo-blue-soft: #1e3a5f;
+  --neo-page-bg: #0b0f17;
+  --neo-surface: #171b24;
+  --neo-surface-raised: #202632;
+  --neo-text: #f8fafc;
+  --neo-muted: #aab6c8;
+  --neo-outline: #64748b;
+  --neo-shadow-color: #020617;
+}
+
+html[data-theme="dark"] {
+  .neo-navbar,
+  .neo-modal .modal-header,
+  .neo-table th,
+  .neo-button-primary,
+  .jumbotron {
+    color: #ffffff !important;
+  }
+
+  .neo-navbar .navbar-brand,
+  .neo-navbar .nav-link {
+    color: #ffffff;
+  }
+
+  .neo-footer {
+    background: #05070b !important;
+    color: #ffffff !important;
+  }
+
+  .modal-content,
+  .dropdown-menu,
+  .list-group-item {
+    background-color: var(--neo-surface);
+    color: var(--neo-text);
+  }
+}

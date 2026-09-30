@@ -1,0 +1,26 @@
+@mixin neo-shadow($size: 'md') {
+  @if $size == 'sm' {
+    box-shadow: var(--neo-shadow-sm);
+  } @else if $size == 'lg' {
+    box-shadow: var(--neo-shadow-lg);
+  } @else {
+    box-shadow: var(--neo-shadow-md);
+  }
+}
+
+@mixin neo-border {
+  border: var(--neo-border);
+  border-radius: var(--neo-radius);
+}
+
+@mixin neo-hover {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  &:hover {
+    transform: translate(-2px, -2px);
+    @include neo-shadow('lg');
+  }
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--neo-shadow-color);
+  }
+}

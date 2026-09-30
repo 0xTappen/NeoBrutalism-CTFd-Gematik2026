@@ -1,0 +1,26 @@
+.neo-modal {
+  background-color: var(--neo-surface);
+  color: var(--neo-text);
+  @include neo-border;
+  @include neo-shadow('lg');
+  
+  .modal-header {
+    border-bottom: var(--neo-border);
+    background-color: var(--neo-blue);
+    color: var(--neo-white);
+    padding: 1rem 1.5rem;
+    
+    .modal-title { margin: 0; }
+    
+    .close {
+      color: var(--neo-white);
+      opacity: 1;
+      text-shadow: none;
+      &:hover { color: var(--neo-yellow); }
+    }
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+}

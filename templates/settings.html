@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron utility-page-hero">
+	<div class="container">
+		<h1><i class="fas fa-cog mr-3" aria-hidden="true"></i>Settings</h1>
+	</div>
+</div>
+<div class="container utility-page settings-page">
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="nav flex-column nav-pills settings-nav" role="tablist">
+				<a class="nav-link active" id="settings-profile-tab" data-toggle="pill" href="#profile" role="tab">Profile</a>
+				<a class="nav-link" id="settings-tokens-tab" data-toggle="pill" href="#tokens" role="tab">Access Tokens</a>
+			</div>
+		</div>
+		<div class="col-lg-9 mt-4 mt-lg-0">
+			<div class="tab-content settings-panel" id="v-pills-tabContent">
+				<div class="tab-pane fade show active" id="profile" role="tabpanel">
+					{% include "components/errors.html" %}
+
+					{% with form = Forms.self.SettingsForm(country=country) %}
+					{% from "macros/forms.html" import render_extra_fields %}
+					<form id="user-profile-form" method="post" accept-charset="utf-8" autocomplete="off" role="form"
+						class="form-horizontal">
+						<div class="form-group">
+							<b>{{ form.name.label }}</b>
+							{{ form.name(class="form-control", value=name) }}
+						</div>
+						<div class="form-group">
+							<b>{{ form.email.label }}</b>
+							{{ form.email(class="form-control", value=email) }}
+						</div>
+
+						<hr>
+
+						<div class="form-group">
+							<b>{{ form.confirm.label }}</b>
+							{{ form.confirm(class="form-control") }}
+						</div>
+						<div class="form-group">
+							<b>{{ form.password.label }}</b>
+							{{ form.password(class="form-control") }}
+						</div>
+
+						<hr>
+
+						<div class="form-group">
+							<b>{{ form.affiliation.label }}</b>
+							{{ form.affiliation(class="form-control", value=affiliation or "") }}
+						</div>
+						<div class="form-group">
+							<b>{{ form.website.label }}</b>
+							{{ form.website(class="form-control", value=website or "") }}
+						</div>
+						<div class="form-group">
+							<b>{{ form.country.label }}</b>
+							{{ form.country(class="neo-native-select", id="user-country-field", value=country) }}
+							<div class="dropdown neo-form-select neo-form-select--overlay" data-neo-select="#user-country-field" data-neo-select-search>
+								<button class="neo-form-select-toggle dropdown-toggle" type="button"
+										aria-haspopup="true" aria-expanded="false">
+									<span class="neo-form-select-label"></span>
+								</button>
+								<div class="dropdown-menu neo-form-select-menu"></div>
+							</div>
+						</div>
+
+						<hr>
+
+						{{ render_extra_fields(form.extra) }}
+
+						<div id="results" class="form-group">
+						</div>
+
+						<div class="form-group settings-actions">
+							{{ form.submit(class="btn btn-md btn-primary btn-outlined") }}
+						</div>
+					</form>
+					{% endwith %}
+				</div>
+				<div class="tab-pane fade" id="tokens" role="tabpanel">
+					{% with form = Forms.self.TokensForm() %}
+					<form method="POST" id="user-token-form">
+						<div class="form-group">
+							<b>{{ form.expiration.label }}</b>
+							{{ form.expiration(class="form-control") }}
+						</div>
+						<div class="form-group">
+							<b>{{ form.description.label }}</b>
+							{{ form.description(class="form-control", rows="3") }}
+						</div>
+						<div class="form-group settings-actions">
+							{{ form.submit(class="btn btn-md btn-primary btn-outlined") }}
+						</div>
+					</form>
+					{% endwith %}
+
+					{% if tokens %}
+					<hr>
+					<h4 class="text-center">Active Tokens</h4>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<td class="text-center"><b>Created</b></td>
+								<td class="text-center"><b>Expiration</b></td>
+								<td class="text-center"><b>Description</b></td>
+								<td class="text-center"><b>Delete</b></td>
+							</tr>
+						</thead>
+						<tbody>
+							{% for token in tokens %}
+							<tr>
+								<td><span data-time="{{ token.created | isoformat }}"></span></td>
+								<td><span data-time="{{ token.expiration | isoformat }}"></span></td>
+								<td><span>{{ token.description | default('', true) }}</span></td>
+								<td class="text-center">
+									<span class="delete-token" role="button" data-token-id="{{ token.id }}">
+										<i class="btn-fa fas fa-times"></i>
+									</span>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block entrypoint %}
+	<script defer src="{{ url_for('views.themes', path='js/pages/settings.js', v='20260717-ui-polish') }}"></script>
+{% endblock %}

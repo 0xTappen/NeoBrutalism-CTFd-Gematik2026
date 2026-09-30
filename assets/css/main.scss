@@ -1,0 +1,26 @@
+// Bootstrap provides the grid, responsive navbar, spacing and display utilities
+// used throughout the CTFd templates. Keep it before the Neo overrides.
+@import "~bootstrap/scss/bootstrap.scss";
+@import "includes/flag-icons";
+
+@import "neo/variables";
+@import "neo/mixins";
+@import "neo/reset";
+@import "neo/typography";
+@import "neo/buttons";
+@import "neo/forms";
+@import "neo/cards";
+@import "neo/badges";
+@import "neo/navbar";
+@import "neo/modals";
+@import "neo/tables";
+@import "neo/animations";
+@import "neo/utilities";
+@import "neo/pages/home";
+@import "neo/pages/challenges";
+@import "neo/pages/scoreboard";
+@import "neo/pages/auth";
+@import "neo/pages/teams";
+@import "neo/pages/users";
+@import "neo/pages/settings";
+@import "neo/pages/errors";

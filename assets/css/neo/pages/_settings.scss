@@ -1,0 +1,197 @@
+.utility-page-hero {
+  margin-bottom: 3rem;
+  padding: 2.5rem 1rem;
+  border-bottom: var(--neo-border);
+  background: var(--neo-blue) !important;
+  color: #ffffff !important;
+  text-align: center;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+  }
+}
+
+.utility-page {
+  padding-bottom: 4rem;
+}
+
+.utility-empty-state {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 4rem 2rem;
+
+  > i {
+    color: var(--neo-blue);
+  }
+}
+
+.notification-card {
+  padding: 0;
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .notification-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 3px solid var(--neo-blue);
+
+    > i {
+      display: inline-flex;
+      width: 2.25rem;
+      height: 2.25rem;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--neo-outline);
+      background: var(--neo-yellow);
+      color: #111111;
+    }
+  }
+
+  blockquote {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 4px solid var(--neo-outline);
+  }
+
+  .notification-time {
+    color: var(--neo-muted);
+    font-weight: 700;
+  }
+}
+
+.settings-nav {
+  border: var(--neo-border);
+  background: var(--neo-surface);
+  box-shadow: var(--neo-shadow-sm);
+
+  .nav-link {
+    padding: 1rem;
+    border-bottom: 1px solid var(--neo-outline);
+    border-radius: 0;
+    color: var(--neo-text);
+    font-weight: 900;
+    text-transform: uppercase;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &:hover,
+    &.active {
+      background: var(--neo-blue);
+      color: #ffffff;
+    }
+  }
+}
+
+.settings-panel {
+  min-height: 420px;
+  padding: 1.75rem;
+  border: var(--neo-border);
+  background: var(--neo-surface);
+  color: var(--neo-text);
+  box-shadow: var(--neo-shadow-md);
+
+  hr {
+    border-top: 2px solid var(--neo-outline);
+  }
+
+  .form-group > b,
+  label {
+    display: inline-block;
+    margin-bottom: 0.45rem;
+    font-family: var(--neo-display-font);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .form-control,
+  .custom-select {
+    min-height: 46px;
+    border: var(--neo-border);
+    border-radius: 0;
+    background-color: var(--neo-surface-raised);
+    color: var(--neo-text);
+    box-shadow: var(--neo-shadow-sm);
+
+    &:focus {
+      border-color: var(--neo-blue);
+      box-shadow: 4px 4px 0 var(--neo-blue);
+    }
+  }
+
+  textarea.form-control {
+    min-height: 100px;
+  }
+
+  .btn-primary {
+    border: var(--neo-border);
+    border-radius: 0;
+    background: var(--neo-blue);
+    box-shadow: var(--neo-shadow-sm);
+    font-family: var(--neo-display-font);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .table {
+    border: var(--neo-border);
+    background: var(--neo-surface-raised);
+    color: var(--neo-text);
+
+    thead {
+      background: var(--neo-blue);
+      color: #ffffff;
+    }
+
+    td {
+      border-color: var(--neo-outline);
+    }
+  }
+
+  .delete-token {
+    color: var(--neo-red);
+    cursor: pointer;
+  }
+
+  .settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1.5rem 0 0;
+    padding: 0.25rem 0.35rem 0.35rem 0;
+
+    .btn {
+      position: relative;
+      float: none !important;
+      min-width: 120px;
+    }
+  }
+}
+
+@media (max-width: 991.98px) {
+  .settings-nav {
+    flex-direction: row !important;
+
+    .nav-link {
+      flex: 1;
+      border-right: 1px solid var(--neo-outline);
+      border-bottom: 0;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .settings-panel {
+    padding: 1.25rem;
+
+    .settings-actions .btn {
+      width: 100%;
+    }
+  }
+}

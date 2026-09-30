@@ -1,0 +1,308 @@
+.neo-navbar {
+  background-color: var(--neo-blue);
+  border-bottom: var(--neo-border);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  > .container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1280px;
+    min-width: 0;
+  }
+  
+  .navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--neo-white);
+    text-transform: uppercase;
+    &:hover {
+      text-decoration: none;
+      transform: scale(1.05);
+    }
+  }
+
+  .navbar-brand-icon {
+    color: var(--neo-yellow);
+    font-size: 1.05em;
+  }
+
+  .navbar-toggler {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  
+  .nav-links {
+    .navbar-nav {
+      list-style: none;
+      margin-bottom: 0;
+      padding-left: 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin: 0.25rem 0.5rem;
+      padding: 0.45rem 0.65rem;
+      border: 2px solid var(--neo-outline);
+      background: var(--neo-yellow);
+      color: #111111;
+      box-shadow: 2px 2px 0 var(--neo-shadow-color);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .language-toggle,
+    .music-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      margin: 0.25rem;
+      padding: 0.55rem 0.65rem;
+      border: 2px solid transparent;
+      background: transparent;
+      color: var(--neo-white);
+      font-weight: 900;
+      cursor: pointer;
+
+      &:hover,
+      &[aria-expanded="true"] {
+        border-color: var(--neo-black);
+        background: var(--neo-white);
+        color: var(--neo-black);
+        box-shadow: 2px 2px 0 var(--neo-black);
+      }
+    }
+
+    .music-toggle[aria-pressed="true"] {
+      border-color: var(--neo-black);
+      background: var(--neo-red);
+      color: var(--neo-white);
+      box-shadow: 2px 2px 0 var(--neo-black);
+    }
+
+    .music-toggle:not([aria-pressed="true"]) {
+      border-color: var(--neo-black);
+      background: var(--neo-white);
+      color: var(--neo-black);
+      box-shadow: 2px 2px 0 var(--neo-black);
+    }
+
+    .language-toggle-label,
+    .music-toggle-label {
+      display: none;
+    }
+
+    .language-dropdown-menu {
+      max-height: min(70vh, 520px);
+      min-width: 220px;
+      overflow-y: auto;
+      border: var(--neo-border);
+      border-radius: 0;
+      background: var(--neo-surface);
+      box-shadow: var(--neo-shadow-md);
+
+      .dropdown-item {
+        width: 100%;
+        padding: 0.55rem 0.8rem;
+        border: 0;
+        background: transparent;
+        color: var(--neo-text);
+        font-weight: 700;
+        text-align: left;
+
+        &:hover,
+        &:focus,
+        &.active {
+          background: var(--neo-blue);
+          color: #ffffff;
+        }
+      }
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      color: var(--neo-white);
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border: 2px solid transparent;
+      &:hover, &.active {
+        background-color: var(--neo-white);
+        color: var(--neo-black);
+        border: 2px solid var(--neo-black);
+        box-shadow: 2px 2px 0 var(--neo-black);
+        text-decoration: none;
+      }
+    }
+
+    .nav-icon {
+      flex: 0 0 auto;
+      width: 1.1em;
+      margin-right: 0.35rem;
+      text-align: center;
+    }
+
+  }
+}
+
+@media (min-width: 1200px) {
+  .neo-navbar.navbar-expand-xl {
+    justify-content: center;
+
+    > .container {
+      width: max-content;
+      max-width: calc(100vw - 2rem);
+      flex-wrap: nowrap;
+      justify-content: center;
+    }
+
+    .navbar-collapse {
+      display: flex !important;
+      flex: 0 0 auto;
+      align-items: center;
+      min-width: 0;
+      flex-wrap: nowrap;
+    }
+
+    .navbar-nav {
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .navbar-brand {
+      margin-right: 1.25rem;
+      white-space: nowrap;
+    }
+
+    .navbar-nav.mr-xl-auto {
+      margin-right: 0.65rem !important;
+    }
+
+    .navbar-nav.ml-xl-auto {
+      margin-left: 0.65rem !important;
+    }
+
+    .nav-links a {
+      padding: 0.5rem 0.65rem;
+      font-size: 0.875rem;
+      white-space: nowrap;
+    }
+
+    .nav-links .theme-toggle {
+      margin-right: 0.4rem;
+      margin-left: 0.4rem;
+      white-space: nowrap;
+    }
+
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  .neo-navbar {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+
+    &.navbar-expand-xl {
+      .navbar-brand {
+        margin-right: 0.6rem;
+        font-size: 1.15rem;
+      }
+
+      .nav-links a {
+        padding-right: 0.4rem;
+        padding-left: 0.4rem;
+        font-size: 0.72rem;
+      }
+
+      .nav-links .nav-icon {
+        margin-right: 0.2rem;
+      }
+
+      .nav-links .theme-toggle {
+        margin-right: 0.25rem;
+        margin-left: 0.25rem;
+        padding-right: 0.45rem;
+        padding-left: 0.45rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .neo-navbar {
+    padding: 0.75rem 1rem;
+
+    .navbar-collapse:not(.show) {
+      display: none !important;
+    }
+
+    .navbar-collapse.show,
+    .navbar-collapse.collapsing {
+      flex-basis: 100%;
+    }
+
+    .nav-links .language-toggle,
+    .nav-links .music-toggle {
+      width: calc(100% - 1rem);
+      margin: 0.25rem 0.5rem;
+    }
+
+    .nav-links .language-toggle-label,
+    .nav-links .music-toggle-label {
+      display: inline;
+    }
+
+    .nav-links .language-dropdown-menu {
+      width: calc(100% - 1rem);
+      margin: 0 0.5rem 0.5rem;
+    }
+
+    .navbar-nav {
+      align-items: stretch;
+    }
+
+    .nav-links .nav-item {
+      display: block;
+    }
+
+    .nav-links .nav-link {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin: 0.25rem 0;
+      text-align: left;
+    }
+
+    .nav-links .theme-toggle {
+      width: 100%;
+      margin: 0.25rem 0;
+      justify-content: center;
+    }
+
+    .navbar-nav.ml-xl-auto {
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+      border-top: 2px solid rgba(255, 255, 255, 0.45);
+    }
+  }
+}

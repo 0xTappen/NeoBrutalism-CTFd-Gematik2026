@@ -1,0 +1,76 @@
+@keyframes neo-pop {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.neo-animate-pop {
+  animation: neo-pop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+main[role="main"] {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+body.page-leaving main[role="main"] {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+@keyframes neo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes neo-active-pop {
+  0% { transform: scale(0.94); }
+  70% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.neo-card,
+.podium-place,
+.notification-card,
+.settings-panel,
+.settings-nav {
+  animation: neo-rise 0.3s ease-out both;
+}
+
+.challenge-card-wrapper {
+  animation: neo-rise 0.28s ease-out both;
+
+  @for $item from 1 through 8 {
+    &:nth-child(#{$item}) {
+      animation-delay: #{($item - 1) * 35}ms;
+    }
+  }
+}
+
+.neo-navbar .nav-link.active {
+  animation: neo-active-pop 0.2s ease-out both;
+}
+
+.challenge-button,
+.podium-place,
+.notification-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.challenge-button:hover,
+.podium-place:hover,
+.notification-card:hover {
+  transform: translate(-2px, -2px);
+}
+
+.neo-button:active,
+.theme-toggle:active,
+.category-filter-button:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: none !important;
+}

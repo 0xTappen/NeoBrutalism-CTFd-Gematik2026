@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row align-items-center mb-4">
+        <div class="col-12 text-center">
+            <h1 class="neo-bold neo-page-title" style="font-size: 3rem; text-transform: uppercase;"><i class="fas fa-flag" aria-hidden="true"></i>{% trans %}Challenges{% endtrans %}</h1>
+            <div style="width: 100px; height: 6px; background: var(--neo-blue); margin: 15px auto 0;"></div>
+        </div>
+    </div>
+
+    <div id="challenge-filter-mobile-panel" class="challenge-filter-panel mb-4">
+        <div class="challenge-filter-control challenge-select-control">
+            <span class="challenge-filter-label">{% trans %}Category{% endtrans %}</span>
+            <div class="dropdown">
+                <button id="challenge-category-toggle" class="challenge-select-toggle dropdown-toggle" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span id="challenge-category-label">ALL CATEGORIES</span>
+                </button>
+                <div id="challenge-category-filter" class="dropdown-menu challenge-select-menu" aria-labelledby="challenge-category-toggle"></div>
+            </div>
+        </div>
+        <div class="challenge-status-control">
+            <span class="challenge-filter-label">STATUS</span>
+            <div id="challenge-status-filter" class="challenge-status-filter" aria-label="Filter challenges by solve status"></div>
+        </div>
+        <div class="challenge-filter-control challenge-select-control">
+            <span class="challenge-filter-label">SORT</span>
+            <div class="dropdown">
+                <button id="challenge-sort-toggle" class="challenge-select-toggle dropdown-toggle" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span id="challenge-sort-label">DEFAULT</span>
+                </button>
+                <div id="challenge-sort" class="dropdown-menu challenge-select-menu" aria-labelledby="challenge-sort-toggle">
+                    <button type="button" class="dropdown-item active" data-sort="default">DEFAULT</button>
+                    <button type="button" class="dropdown-item" data-sort="points-asc">POINTS: LOW TO HIGH</button>
+                    <button type="button" class="dropdown-item" data-sort="points-desc">POINTS: HIGH TO LOW</button>
+                    <button type="button" class="dropdown-item" data-sort="solves-desc">MOST SOLVED</button>
+                    <button type="button" class="dropdown-item" data-sort="solves-asc">LEAST SOLVED</button>
+                </div>
+            </div>
+        </div>
+        <label class="challenge-filter-control challenge-search-control" for="challenge-search">
+            <span class="challenge-filter-label">{% trans %}Search{% endtrans %}</span>
+            <input type="search" id="challenge-search" class="neo-input" placeholder="Challenge name...">
+        </label>
+        <button type="button" id="challenge-filter-reset" class="category-filter-button challenge-filter-reset" hidden>RESET</button>
+    </div>
+    <button id="challenge-filter-mobile-toggle" class="neo-button neo-button-secondary challenge-filter-mobile-toggle mb-3" type="button" aria-expanded="false" aria-controls="challenge-filter-mobile-panel">
+        <i class="fas fa-filter mr-2" aria-hidden="true"></i>FILTERS
+    </button>
+
+    <div id="challenge-filter-empty" class="neo-card text-center mb-4 py-4" hidden>
+        <h3 class="neo-bold mb-2">NO MATCHING CHALLENGES</h3>
+        <p class="mb-0">Try another category, status, or search term.</p>
+    </div>
+
+    <section id="challenge-recent" class="challenge-recent neo-card mb-4" hidden aria-labelledby="challenge-recent-title">
+        <div class="challenge-recent-heading">
+            <h2 id="challenge-recent-title" class="neo-bold mb-0"><i class="fas fa-history mr-2" aria-hidden="true"></i>RECENT ACTIVITY</h2>
+            <button id="challenge-recent-clear" type="button">CLEAR</button>
+        </div>
+        <div id="challenge-recent-list" class="challenge-recent-list"></div>
+    </section>
+
+	<div class="row">
+		<div class="col-md-12">
+			{% include "components/errors.html" %}
+		</div>
+	</div>
+
+    <div class="modal fade" id="challenge-window" tabindex="-1" role="dialog" aria-hidden="true">
+    </div>
+
+	<div id='challenges-board'>
+		<div class="challenge-skeleton-grid" aria-label="Loading challenges">
+            {% for _ in range(6) %}<div class="neo-skeleton neo-skeleton-card"></div>{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block entrypoint %}
+	<script defer src="{{ url_for('views.themes', path='js/pages/challenges.js', v='20260717-first-blood-sounds') }}"></script>
+{% endblock %}

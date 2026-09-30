@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-12 text-center">
+            <h1 class="neo-bold neo-page-title" style="font-size: 3.5rem; text-transform: uppercase;"><i class="fas fa-trophy" aria-hidden="true"></i>{% trans %}Scoreboard{% endtrans %}</h1>
+            <div style="width: 100px; height: 6px; background: var(--neo-blue); margin: 15px auto;"></div>
+        </div>
+    </div>
+
+	{% include "components/errors.html" %}
+
+	<div id="score-graph" class="row d-flex align-items-center mb-5 neo-card" style="min-height: 400px; padding: 2rem;">
+		<div class="col-md-12"><div class="neo-skeleton" style="height:300px"><div class="neo-skeleton-line"></div></div></div>
+	</div>
+
+	<section id="scoreboard-podium" class="scoreboard-podium mb-5" aria-label="Top three competitors">
+		<div class="podium-loading neo-skeleton neo-skeleton-card"></div>
+	</section>
+
+	<section id="challenge-matrix-panel" class="neo-card scoreboard-matrix-panel mb-5" aria-labelledby="challenge-matrix-title">
+		<div class="matrix-title-row">
+			<h2 id="challenge-matrix-title" class="neo-bold section-title-with-icon mb-0"><i class="fas fa-table" aria-hidden="true"></i>SOLVE MATRIX</h2>
+			<span class="neo-badge neo-badge-blue">TOP 50</span>
+		</div>
+		<div class="matrix-help-row">
+			<div class="matrix-legend" aria-label="Solve status legend">
+				<span><i class="matrix-status first fas fa-medal" aria-hidden="true"></i> FIRST BLOOD</span>
+				<span><i class="matrix-status solved fas fa-check" aria-hidden="true"></i> SOLVED</span>
+				<span><i class="matrix-status unsolved fas fa-minus" aria-hidden="true"></i> UNSOLVED</span>
+			</div>
+			<span class="matrix-scroll-hint"><i class="fas fa-arrows-alt-h" aria-hidden="true"></i> SCROLL TO SEE MORE</span>
+		</div>
+		<div id="challenge-matrix" class="matrix-scroll" aria-live="polite">
+			<div class="matrix-loading neo-skeleton" style="height:180px"></div>
+		</div>
+	</section>
+
+</div>
+{% endblock %}
+
+{% block entrypoint %}
+	<script defer src="{{ url_for('views.themes', path='js/pages/scoreboard.js', v='20260717-lazy-chart') }}"></script>
+{% endblock %}

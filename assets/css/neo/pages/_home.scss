@@ -1,0 +1,81 @@
+.competition-status-card {
+  margin-bottom: 1rem;
+}
+
+body:has(#competition-status) main[role="main"] {
+  padding-bottom: 4rem;
+}
+
+.competition-countdown {
+  display: block;
+  margin: 0.25rem 0 1rem;
+  padding: 0.85rem;
+  border: 2px solid var(--neo-outline);
+  background: var(--neo-surface-raised);
+  box-shadow: var(--neo-shadow-sm);
+  color: var(--neo-text);
+  font-family: var(--neo-display-font);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.competition-countdown-label {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--neo-muted);
+  font-size: 0.7rem;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+
+  > span {
+    padding: 0.55rem 0.35rem;
+    border: 2px solid var(--neo-outline);
+    background: var(--neo-page-bg);
+    text-align: center;
+  }
+
+  strong,
+  small {
+    display: block;
+  }
+
+  strong {
+    color: var(--neo-blue-dark);
+    font-size: clamp(1.25rem, 3vw, 1.8rem);
+  }
+
+  small {
+    margin-top: 0.15rem;
+    color: var(--neo-muted);
+    font-size: 0.55rem;
+  }
+}
+
+.competition-schedule {
+  margin-bottom: 0.85rem;
+  color: var(--neo-muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.competition-meta {
+  gap: 1.25rem 2.5rem;
+
+  > div {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .countdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .competition-meta {
+    gap: 1rem 1.5rem;
+  }
+}

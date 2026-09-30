@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{ Configs.ctf_name }}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script>
+		(function () {
+			var savedTheme = localStorage.getItem("gematik-color-mode");
+			var theme = savedTheme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+			document.documentElement.setAttribute("data-theme", theme);
+		})();
+	</script>
+	<link rel="shortcut icon" href="{{ Configs.ctf_small_icon }}" type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
+	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/fonts.css', v='20260716-font-utility') }}">
+	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/main.css', v='20260717-productivity') }}">
+	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/core.css', v='20260716-unified-font') }}">
+	{% block stylesheets %}
+	{% endblock %}
+
+	{{ Plugins.styles }}
+	<script type="text/javascript">
+		var init = {
+			'urlRoot': "{{ request.script_root }}",
+			'csrfNonce': "{{ Session.nonce }}",
+			'userMode': "{{ Configs.user_mode }}",
+			'userId': {{ Session.id }},
+			'userName': {{ User.name | tojson }},
+			'userEmail': {{ User.email | tojson }},
+			'teamId': {{ Team.id | tojson }}, 
+			'teamName': {{ Team.name | tojson }},
+			'start': {{ Configs.start | tojson }},
+			'end': {{ Configs.end | tojson }},
+			'theme_settings': {{ Configs.theme_settings | tojson }}
+		}
+	</script>
+	{{ Configs.theme_header }}
+</head>
+<body>
+	<div id="neo-toast-region" class="neo-toast-region" aria-live="polite" aria-atomic="false"></div>
+	{% include "components/navbar.html" %}
+	<div id="neo-announcement-region" class="neo-announcement-region" aria-live="polite"></div>
+
+	<main role="main">
+		{% block content %}
+		{% endblock %}
+	</main>
+
+	<footer class="neo-footer">
+		<div class="container neo-footer-grid">
+			<div class="neo-footer-brand">
+				<a class="neo-footer-title" href="{{ url_for('views.static_html', route='/') }}">GEMATIK 2026</a>
+			</div>
+			<div class="neo-footer-meta">
+				<span>CTF COMPETITION</span>
+				<a href="https://ctfd.io" rel="noopener">Powered by CTFd</a>
+			</div>
+		</div>
+		<div class="container neo-footer-bottom">
+			<span>&copy; 2026 GEMATIK</span>
+			<span>PROTEK X BEM FTIK</span>
+		</div>
+	</footer>
+
+	<script defer src="{{ url_for('views.themes', path='js/vendor.bundle.js', v='20260716-font-utility') }}"></script>
+	<script defer src="{{ url_for('views.themes', path='js/core.js', v='20260716-font-utility') }}"></script>
+	<script defer src="{{ url_for('views.themes', path='js/helpers.js', v='20260716-font-utility') }}"></script>
+
+	{% block entrypoint %}
+	<script defer src="{{ url_for('views.themes', path='js/pages/main.js', v='20260717-productivity') }}"></script>
+	{% endblock %}
+
+	{% block scripts %}
+	{% endblock %}
+
+	{{ Plugins.scripts }}
+
+	{{ Configs.theme_footer }}
+</body>
+</html>

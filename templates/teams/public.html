@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block content %}
+	<div class="jumbotron account-hero team-profile-hero">
+		<div class="container">
+			<h1 id="team-id" team-id="{{ team.id }}">{{ team.name }}</h1>
+			<div class="account-hero-summary">
+			<div class="account-profile-meta">
+				{% if team.affiliation %}
+					<div class="account-meta-item"><i class="fas fa-building" aria-hidden="true"></i><span><small>Affiliation</small><strong>{{ team.affiliation }}</strong></span></div>
+				{% endif %}
+				{% if team.country %}
+					<div class="account-meta-item"><span class="account-country-flag" aria-hidden="true"><i class="flag-{{ team.country.lower() }}"></i><span>{{ team.country.upper() }}</span></span><span><small>Country</small><strong>{{ lookup_country_code(team.country) }}</strong></span></div>
+				{% endif %}
+				{% if team.oauth_id %}
+					<a class="account-meta-item" href="https://majorleaguecyber.org/t/{{ team.name }}"><i class="fas fa-check-circle" aria-hidden="true"></i><span><small>Account</small><strong>Official</strong></span></a>
+				{% endif %}
+				{% for field in team.fields %}
+					<div class="account-meta-item"><span><small>{{ field.name }}</small><strong>{{ field.value }}</strong></span></div>
+				{% endfor %}
+			</div>
+			<div class="account-rank-summary">
+			<h2 id="team-place" class="text-center">
+				<i class="fas fa-trophy account-stat-icon" aria-hidden="true"></i>
+				<span class="account-stat-value">
+				{# This intentionally hides the team's place when scores are hidden because this can be their internal profile
+			and we don't want to leak their place in the CTF. #}
+				{# Public page hiding is done at the route level #}
+				{% if scores_visible() %}
+					{% if place %}
+						{{ place }}
+						<small>place</small>
+					{% endif %}
+				{% endif %}
+				</span>
+			</h2>
+			<h2 id="team-score" class="text-center">
+				<i class="fas fa-coins account-stat-icon" aria-hidden="true"></i>
+				<span class="account-stat-value">
+				{% if score %}
+					{{ score }}
+					<small>points</small>
+				{% endif %}
+				</span>
+			</h2>
+			</div>
+			</div>
+
+			<div class="pt-3">
+				{% if team.website and (team.website.startswith('http://') or team.website.startswith('https://')) %}
+					<a class="account-website-link" href="{{ team.website }}" target="_blank" rel="noopener" title="{{ team.website }}">
+						<i class="fas fa-external-link-alt" aria-hidden="true"></i><span>Website</span>
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="container account-page team-page">
+		{% include "components/errors.html" %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="section-title-with-icon"><i class="fas fa-users" aria-hidden="true"></i>Members</h3>
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<td><b><i class="fas fa-user table-heading-icon" aria-hidden="true"></i>User Name</b></td>
+						<td><b><i class="fas fa-chart-line table-heading-icon" aria-hidden="true"></i>Score</b></td>
+					</tr>
+					</thead>
+					<tbody>
+					{% for member in team.members %}
+						<tr>
+							<td>
+								{% if team.captain_id == member.id %}
+									<i class="fas fa-crown member-role-icon is-captain" aria-hidden="true" title="Captain"></i>
+								{% else %}
+									<i class="fas fa-user member-role-icon" aria-hidden="true" title="Member"></i>
+								{% endif %}
+								<a href="{{ url_for('users.public', user_id=member.id) }}">
+									{{ member.name }}
+								</a>
+							</td>
+							<td>{{ member.score }}</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		{% if solves or awards %}
+			<div class="row">
+				<div class="col-md-6 d-none d-md-block d-lg-block">
+					<div id="keys-pie-graph" class="d-flex align-items-center">
+						<div class="text-center w-100">
+							<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 d-none d-md-block d-lg-block">
+					<div id="categories-pie-graph" class="d-flex align-items-center">
+						<div class="text-center w-100">
+							<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+						</div>
+					</div>
+				</div>
+				<br class="clearfix">
+				<div class="col-md-12 d-none d-md-block d-lg-block">
+					<div id="score-graph" class="w-100 d-flex align-items-center">
+						<div class="text-center w-100">
+							<i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="clearfix"></div>
+
+			{% if awards %}
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="section-title-with-icon"><i class="fas fa-trophy" aria-hidden="true"></i>Awards</h3>
+					</div>
+					{% for award in awards %}
+						<div class="col-md-3 col-sm-6">
+							<p class="text-center">
+								<i class="fas fa-medal award-card-icon" aria-hidden="true"></i>
+								<br>
+								<strong>{{ award.name }}</strong>
+							</p>
+							{% if award.category %}<p class="text-center">{{ award.category }}</p>{% endif %}
+							{% if award.description %}<p class="text-center">{{ award.description }}</p>{% endif %}
+							<p class="text-center">{{ award.value }}</p>
+						</div>
+					{% endfor %}
+				</div>
+
+				<br>
+			{% endif %}
+
+			<div class="row">
+				<div class="col-md-12">
+					<h3 class="section-title-with-icon"><i class="fas fa-check-circle" aria-hidden="true"></i>Solves</h3>
+					<table class="table table-striped">
+						<thead>
+						<tr>
+							<td><b><i class="fas fa-flag table-heading-icon" aria-hidden="true"></i>Challenge</b></td>
+							<td class="d-none d-md-table-cell"><b><i class="fas fa-folder table-heading-icon" aria-hidden="true"></i>Category</b></td>
+							<td><b><i class="fas fa-coins table-heading-icon" aria-hidden="true"></i>Value</b></td>
+							<td><b><i class="fas fa-clock table-heading-icon" aria-hidden="true"></i>Time</b></td>
+						</tr>
+						</thead>
+						<tbody>
+						{% for solve in solves %}
+							<tr>
+								<td>
+									<i class="fas fa-flag solve-cell-icon" aria-hidden="true"></i>
+									<a href="{{ url_for('challenges.listing') }}#{{ solve.challenge.name }}-{{ solve.challenge.id }}">
+										{{ solve.challenge.name }}
+									</a>
+								</td>
+								<td class="d-none d-md-table-cell" data-category-icon="{{ solve.challenge.category }}">{{ solve.challenge.category }}</td>
+								<td><i class="fas fa-coins solve-cell-icon" aria-hidden="true"></i>{{ solve.challenge.value }}</td>
+								<td class="solve-time">
+									<i class="fas fa-clock solve-cell-icon" aria-hidden="true"></i>
+									<span data-time="{{ solve.date | isoformat }}"></span>
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		{% else %}
+			<div class="row min-vh-25">
+				<h3 class="opacity-50 text-center w-100 justify-content-center align-self-center">
+					No solves yet
+				</h3>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		var stats_data = {{ {
+			'type': 'team',
+			'id': team.id,
+			'name': team.name,
+			'account_id': team.id,
+		} | tojson }};
+	</script>
+{% endblock %}
+
+{% block entrypoint %}
+	{% if solves or awards %}
+		<script defer src="{{ url_for('views.themes', path='js/pages/stats.js', v='20260717-optimized-stats') }}"></script>
+	{% endif %}
+{% endblock %}

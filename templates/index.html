@@ -1,0 +1,78 @@
+<div class="jumbotron" style="background-color: var(--neo-blue); color: var(--neo-white); border-bottom: var(--neo-border); border-bottom-color: var(--neo-black); border-radius: 0; padding: 4rem 2rem; margin-bottom: 0;">
+    <div class="container position-relative">
+        <!-- Decorative brutalist shape -->
+        <div class="d-none d-md-block" style="position: absolute; right: 0; top: -20px; width: 100px; height: 100px; background: var(--neo-yellow); border: var(--neo-border); z-index: 1;"></div>
+        <div class="d-none d-md-block" style="position: absolute; right: 20px; top: 10px; width: 100px; height: 100px; background: var(--neo-green); border: var(--neo-border); z-index: 0;"></div>
+
+        <h1 class="display-3 neo-bold" style="position: relative; z-index: 2;">
+            GEMATIK 2026<br>
+            <span style="color: var(--neo-yellow); background: var(--neo-black); padding: 0 10px; display: inline-block; transform: rotate(-2deg); margin-top: 10px;">CTF COMPETITION</span>
+        </h1>
+        <p class="lead mt-4 mb-5" style="max-width: 600px; font-weight: 500; font-size: 1.25rem;">
+            Welcome to the ultimate cybersecurity challenge. Test your skills, solve puzzles, and climb the leaderboard in Gematik 2026.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+            {% if authed() %}
+                <a class="neo-button neo-button-secondary neo-bold" href="{{ url_for('challenges.listing') }}" style="font-size: 1.25rem;">START HACKING</a>
+                <a class="neo-button neo-button-primary neo-bold" href="{{ url_for('scoreboard.listing') }}" style="font-size: 1.25rem;">SCOREBOARD</a>
+            {% else %}
+                {% if registration_visible() %}
+                    <a class="neo-button neo-button-secondary neo-bold" href="{{ url_for('auth.register') }}" style="font-size: 1.25rem;">REGISTER NOW</a>
+                {% endif %}
+                <a class="neo-button neo-button-primary neo-bold" href="{{ url_for('auth.login') }}" style="font-size: 1.25rem;">LOGIN</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="neo-bold mb-4" style="border-bottom: 4px solid var(--neo-blue); display: inline-block;">COMPETITION STATUS</h2>
+            <div id="competition-status" class="neo-card competition-status-card" data-start='{{ Configs.start | tojson }}' data-end='{{ Configs.end | tojson }}'>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="m-0 neo-bold">
+                        {% if Configs.start and Configs.end %}
+                            Timeline
+                        {% else %}
+                            Status
+                        {% endif %}
+                    </h3>
+                    <span id="competition-status-badge" class="neo-badge neo-badge-blue">CHECKING</span>
+                </div>
+                <p id="competition-status-message">Checking the competition schedule...</p>
+                <div id="competition-schedule" class="competition-schedule" hidden></div>
+                <div id="competition-countdown" class="competition-countdown" hidden aria-live="polite">
+                    <span id="competition-countdown-label" class="competition-countdown-label">STARTS IN</span>
+                    <div class="countdown-grid">
+                        <span><strong data-countdown="days">0</strong><small>DAYS</small></span>
+                        <span><strong data-countdown="hours">00</strong><small>HOURS</small></span>
+                        <span><strong data-countdown="minutes">00</strong><small>MINUTES</small></span>
+                        <span><strong data-countdown="seconds">00</strong><small>SECONDS</small></span>
+                    </div>
+                </div>
+                <div class="competition-meta d-flex flex-wrap mt-4">
+                    <div style="border-left: var(--neo-border); border-left-color: var(--neo-blue); padding-left: 1rem;">
+                        <div style="text-transform: uppercase; font-size: 0.875rem; font-weight: bold; color: var(--neo-gray-dark);">Format</div>
+                        <div class="neo-bold" style="font-size: 1.5rem;">Jeopardy</div>
+                    </div>
+                    <div style="border-left: var(--neo-border); border-left-color: var(--neo-yellow); padding-left: 1rem;">
+                        <div style="text-transform: uppercase; font-size: 0.875rem; font-weight: bold; color: var(--neo-gray-dark);">Target</div>
+                        <div class="neo-bold" style="font-size: 1.5rem;">Flags</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h2 class="neo-bold mb-4" style="border-bottom: 4px solid var(--neo-red); display: inline-block;">QUICK RULES</h2>
+            <div class="neo-card" style="background: var(--neo-red); color: var(--neo-white);">
+                <ul style="padding-left: 1.5rem; font-weight: bold; margin: 0;">
+                    <li class="mb-2">No DDoS on competition infrastructure.</li>
+                    <li class="mb-2">No flag sharing.</li>
+                    <li class="mb-2">Do not attack other teams.</li>
+                    <li>Have fun and learn!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

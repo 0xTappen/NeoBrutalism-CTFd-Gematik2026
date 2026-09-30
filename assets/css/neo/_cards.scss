@@ -1,0 +1,16 @@
+.neo-card {
+  background-color: var(--neo-surface);
+  color: var(--neo-text);
+  padding: 1.5rem;
+  @include neo-border;
+  @include neo-shadow('md');
+  margin-bottom: 1.5rem;
+  
+  &-header {
+    border-bottom: var(--neo-border);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 900;
+    font-size: 1.25rem;
+  }
+}

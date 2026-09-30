@@ -1,0 +1,35 @@
+.neo-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--neo-surface);
+  color: var(--neo-text);
+  @include neo-border;
+  @include neo-shadow('md');
+  
+  th, td {
+    padding: 1rem;
+    border: var(--neo-border);
+    text-align: left;
+  }
+  
+  th {
+    background-color: var(--neo-blue);
+    color: var(--neo-white);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  
+  tbody tr {
+    transition: background-color 0.1s ease;
+    &:hover {
+      background-color: var(--neo-blue-soft);
+    }
+  }
+}
+
+// All themed table headers use a blue surface. Keep contextual icons on the
+// yellow accent so they remain readable in both color modes.
+table thead .table-heading-icon,
+.neo-table thead .table-heading-icon {
+  color: var(--neo-yellow) !important;
+}

@@ -1,0 +1,15 @@
+.neo-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-weight: bold;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  background-color: var(--neo-surface);
+  color: var(--neo-text);
+  @include neo-border;
+  
+  &.neo-badge-blue { background-color: var(--neo-blue); color: var(--neo-white); }
+  &.neo-badge-yellow { background-color: var(--neo-yellow); }
+  &.neo-badge-green { background-color: var(--neo-green); color: var(--neo-white); }
+  &.neo-badge-red { background-color: var(--neo-red); color: var(--neo-white); }
+}

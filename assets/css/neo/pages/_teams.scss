@@ -1,0 +1,124 @@
+.team-profile-hero {
+  .btn-fa {
+    display: inline-flex;
+    width: 3rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+    margin: 0.25rem;
+    padding: 0 !important;
+    border: 2px solid #111111;
+    background: var(--neo-yellow);
+    color: #111111;
+    box-shadow: 3px 3px 0 #111111;
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
+
+  .fa-disabled {
+    cursor: not-allowed;
+    filter: grayscale(1);
+    opacity: 0.55;
+  }
+
+  .fa-trash-alt:not(.fa-disabled) {
+    background: var(--neo-red);
+    color: #ffffff;
+  }
+}
+
+.team-page {
+  .badge-primary {
+    border-radius: 0;
+    background: var(--neo-blue);
+  }
+}
+
+.member-role-icon,
+.table-heading-icon,
+.solve-cell-icon {
+  width: 1.15em;
+  margin-right: 0.4rem;
+  color: var(--neo-blue-dark);
+  text-align: center;
+}
+
+.member-role-icon.is-captain {
+  color: var(--neo-yellow);
+}
+
+.solve-cell-icon {
+  color: var(--neo-muted);
+  font-size: 0.8rem;
+}
+
+.section-title-with-icon {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.55rem;
+
+  > i {
+    color: var(--neo-blue);
+    font-size: 0.85em;
+  }
+}
+
+.award-card-icon {
+  display: block;
+  margin: 0 auto 0.85rem;
+  color: var(--neo-yellow);
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 0 var(--neo-outline));
+}
+
+.neo-select-option-icon {
+  width: 1.25em;
+  margin-right: 0.5rem;
+  color: var(--neo-blue);
+  text-align: center;
+}
+
+.neo-form-select-menu .dropdown-item.active .neo-select-option-icon,
+.neo-form-select-menu .dropdown-item:hover .neo-select-option-icon,
+.neo-form-select-menu .dropdown-item:focus .neo-select-option-icon {
+  color: #ffffff;
+}
+
+#team-edit-modal,
+#team-captain-modal,
+#team-invite-modal {
+  .modal-content {
+    border: var(--neo-border);
+    border-radius: 0;
+    background: var(--neo-surface);
+    color: var(--neo-text);
+    box-shadow: var(--neo-shadow-lg);
+  }
+
+  .modal-header {
+    border-bottom: var(--neo-border);
+    background: var(--neo-blue);
+    color: #ffffff;
+  }
+
+  .close {
+    color: #ffffff;
+    opacity: 1;
+    text-shadow: none;
+  }
+
+  .form-control,
+  .custom-select {
+    border: var(--neo-border);
+    border-radius: 0;
+    background-color: var(--neo-surface-raised);
+    color: var(--neo-text);
+  }
+
+  .btn-primary,
+  .btn-outline-secondary {
+    border: 2px solid var(--neo-outline);
+    border-radius: 0;
+    box-shadow: var(--neo-shadow-sm);
+  }
+}

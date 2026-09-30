@@ -1,0 +1,33 @@
+{
+  "name": "gematik2026",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "dayjs": "^1.10.4",
+    "echarts": "^6.1.0",
+    "event-source-polyfill": "^1.0.31",
+    "highlight.js": "^10.7.2",
+    "howler": "^2.2.1",
+    "jquery": "^3.6.0",
+    "markdown-it": "^14.3.0",
+    "nunjucks": "^3.2.3",
+    "popper.js": "^1.16.1",
+    "q": "^2.0.3",
+    "sweetalert2": "^11.0.0",
+    "whatwg-fetch": "^3.6.20"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.0",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.4",
+    "mini-css-extract-plugin": "^1.6.0",
+    "sass": "^1.32.12",
+    "sass-loader": "^11.0.1",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.7.0"
+  }
+}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+	<div class="row justify-content-center">
+		<div class="col-md-6 col-lg-5">
+            <div class="neo-card mt-5" style="border-width: 4px; box-shadow: var(--neo-shadow-lg);">
+                <div class="text-center mb-4">
+                    <h1 class="neo-bold" style="font-size: 2.5rem; text-transform: uppercase;">{% trans %}Register{% endtrans %}</h1>
+                    <div style="width: 50px; height: 4px; background: var(--neo-blue); margin: 10px auto;"></div>
+                </div>
+
+                {% include "components/errors.html" %}
+
+                {% if integrations.mlc() %}
+                <a class="neo-button neo-button-secondary w-100 mb-3" href="{{ url_for('auth.oauth_login') }}">
+                    Login with Major League Cyber
+                </a>
+                <div class="text-center my-3 neo-bold">OR</div>
+                {% endif %}
+
+                {% with form = Forms.auth.RegistrationForm() %}
+                {% from "macros/forms.html" import render_extra_fields %}
+                <form method="post" accept-charset="utf-8" autocomplete="off" role="form">
+                    <div class="form-group mb-4">
+                        <label class="neo-bold text-uppercase">{{ form.name.label.text }}</label>
+                        {{ form.name(class="neo-input", value=name, placeholder="Your username on the site") }}
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="neo-bold text-uppercase">{{ form.email.label.text }}</label>
+                        {{ form.email(class="neo-input", value=email, placeholder="Never shown to the public") }}
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="neo-bold text-uppercase">{{ form.password.label.text }}</label>
+                        {{ form.password(class="neo-input", value=password, placeholder="Password") }}
+                    </div>
+                    
+                    {{ form.nonce() }}
+                    {{ render_extra_fields(form.extra) }}
+
+                    <div class="mt-4">
+                        <button type="submit" class="neo-button neo-button-primary w-100" style="font-size: 1.25rem;">
+                            CREATE ACCOUNT
+                        </button>
+                    </div>
+
+                    {% if Configs.tos_or_privacy %}
+                    <div class="mt-4 text-center">
+                        <small style="color: var(--neo-gray-dark); font-weight: bold;">
+                            By registering, you agree to the
+                            <a href="{{ Configs.privacy_link }}" rel="noopener" target="_blank" style="text-decoration: underline;">privacy policy</a>
+                            and <a href="{{ Configs.tos_link }}" rel="noopener" target="_blank" style="text-decoration: underline;">terms of service</a>
+                        </small>
+                    </div>
+                    {% endif %}
+                </form>
+                {% endwith %}
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
