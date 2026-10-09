@@ -41,6 +41,10 @@
                             <h3 class="challenge-value neo-bold mb-4" style="color: var(--neo-blue); font-size: 1.5rem;">
                                 <i class="fas fa-coins mr-2" aria-hidden="true"></i>{{ challenge.value }} PTS
                             </h3>
+                            <div class="challenge-safety-alert mb-3" role="alert">
+                                <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                                <span>No DDoS, brute force, or infrastructure attacks are needed for this challenge.</span>
+                            </div>
                             <div class="challenge-context-row mb-3" aria-live="polite"></div>
 
                             <div class="challenge-tags mb-4">
@@ -128,10 +132,10 @@
                                     </button>
                                 </div>
                                 <div id="ctfdpp-ai-sources" class="ctfdpp-ai-sources"></div>
-                                <label class="neo-bold mt-3 mb-2 d-block" for="solver-files">
+                                <label class="neo-bold ctfdpp-solver-label mt-3 mb-2 d-block" for="solver-files">
                                     <i class="fas fa-file-code mr-2" aria-hidden="true"></i>SOLVER / SCRIPT
                                 </label>
-                                <input id="solver-files" class="neo-input w-100" type="file" name="solver" multiple>
+                                <input id="solver-files" class="neo-input ctfdpp-file-input w-100" type="file" name="solver" multiple>
                             </div>
 
                             <div class="submit-row d-flex gap-3 mt-4">

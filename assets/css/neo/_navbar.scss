@@ -36,6 +36,13 @@
     font-size: 1.05em;
   }
 
+  .navbar-brand-logo {
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    object-fit: contain;
+  }
+
   .navbar-toggler {
     display: inline-flex;
     align-items: center;
