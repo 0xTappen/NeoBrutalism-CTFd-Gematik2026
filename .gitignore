@@ -105,3 +105,6 @@ CTFd/themes/*
 !CTFd/themes/persona5/
 # Copyrighted flag-success soundtracks: kept out of the public repo, copied in per deployment
 CTFd/themes/persona5/static/sfx/*.mp3
+!CTFd/themes/ncw2026/
+# Copyrighted flag-success soundtracks: kept out of the public repo, copied in per deployment
+CTFd/themes/ncw2026/static/sfx/*.mp3

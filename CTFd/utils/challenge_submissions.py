@@ -120,7 +120,13 @@ def validate_challenge_submission_metadata(challenge, req):
 
         for source in ai_sources:
             if ai_source_pattern.fullmatch(source) is None:
-                return "Please check again your AI Source."
+                if configured_regex == DEFAULT_AI_SOURCE_REGEX:
+                    return (
+                        "AI Source must be a DeepSeek shared conversation link: "
+                        "https://chat.deepseek.com/share/<id>. "
+                        "If AI Source is optional and you did not use AI, leave it blank."
+                    )
+                return "AI Source does not match the format required by the organizer. Use an approved shared conversation link."
 
     if challenge.require_solver and not solver_files:
         return "Solver / Script is required for this challenge."

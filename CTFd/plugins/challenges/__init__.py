@@ -350,6 +350,21 @@ class BaseChallenge(object):
 
         analyze_submission(solve)
         try:
+            from flask import current_app
+            from CTFd.utils.announcer_bot import eligible_solves_for_challenge, solve_is_eligible, get_solve_account
+
+            if solve_is_eligible(solve):
+                first = eligible_solves_for_challenge(challenge.id).first()
+                if first and first.id == solve.id:
+                    account = get_solve_account(solve)
+                    current_app.events_manager.publish(
+                        data={"solve_id": solve.id, "challenge_id": challenge.id,
+                              "challenge": challenge.name, "account": account.name},
+                        type="first_blood",
+                    )
+        except Exception:
+            current_app.logger.exception("First blood broadcast failed for solve %s", solve.id)
+        try:
             from CTFd.utils.announcer_bot import announce_solve
 
             announce_solve(solve)
