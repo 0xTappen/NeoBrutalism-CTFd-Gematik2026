@@ -1,40 +1,40 @@
 {% extends "base.html" %}
 
 {% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('views.themes', path='css/team-enrollment.css', v='20261010-forms-v2') }}">
 {% endblock %}
 
 {% block content %}
-	<div class="jumbotron">
-		<div class="container">
-			<h1>Join Team</h1>
+<section class="team-enrollment" aria-labelledby="join-team-title">
+	<a class="team-form-back" id="join-back" href="{{ url_for('teams.private') }}"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Team</a>
+	<div class="team-form-layout">
+		<header class="team-enrollment__header team-form-intro">
+			<span class="team-enrollment__eyebrow"><i class="fas fa-users" aria-hidden="true"></i> Find your crew</span>
+			<h1 id="join-team-title">Join your team.<br><span>Capture more flags.</span></h1>
+			<p>Great challenges are better together. Enter your team's details and get ready to compete.</p>
+		</header>
+		<div class="team-form-panel">
+			<h2>Join Team</h2>
+			{% include "components/errors.html" %}
+			{% with form = Forms.teams.TeamJoinForm() %}
+			<form method="POST" id="join-team-form">
+				<div class="form-group">
+					{{ form.name.label }}
+					{{ form.name(class="form-control", placeholder="Enter your team name", autocomplete="off") }}
+				</div>
+				<div class="form-group">
+					{{ form.password.label }}
+					{{ form.password(class="form-control", placeholder="Enter your team password", autocomplete="current-password", aria_describedby="join-team-help") }}
+				</div>
+				<p class="team-form-help" id="join-team-help">Ask your team captain for the team name and password. These are separate from your personal login.</p>
+				{{ form.submit(class="team-enrollment__action") }}
+				{{ form.nonce() }}
+			</form>
+			{% endwith %}
+			<p class="team-form-switch">Starting your own crew? <a id="join-create-link" href="{{ url_for('teams.new') }}">Create a team</a></p>
 		</div>
 	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 offset-md-3">
-				{% include "components/errors.html" %}
-
-				{% with form = Forms.teams.TeamJoinForm() %}
-				<form method="POST">
-					<div class="form-group">
-						{{ form.name.label }}
-						{{ form.name(class="form-control") }}
-					</div>
-					<div class="form-group">
-						{{ form.password.label }}
-						{{ form.password(class="form-control") }}
-					</div>
-					<div class="row pt-3">
-						<div class="col-md-12">
-							{{ form.submit(class="btn btn-success float-right") }}
-						</div>
-					</div>
-					{{ form.nonce() }}
-				</form>
-				{% endwith %}
-			</div>
-		</div>
-	</div>
+</section>
 {% endblock %}
 
 {% block scripts %}

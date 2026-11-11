@@ -1,18 +1,16 @@
-<div class="modal-dialog neo-modal" role="document">
-	<div class="modal-content" style="border: none; background: transparent;">
-		<div class="modal-body" style="background: var(--neo-surface); color: var(--neo-text); border: var(--neo-border); box-shadow: var(--neo-shadow-lg); padding: 0;">
-            <div class="d-flex justify-content-between align-items-center" style="background: var(--neo-blue); color: var(--neo-white); padding: 1rem 1.5rem; border-bottom: var(--neo-border);">
-                <h4 class="m-0 neo-bold text-uppercase challenge-modal-title"><i class="fas fa-flag" aria-hidden="true"></i>Challenge</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: var(--neo-white); opacity: 1; text-shadow: none;">
-                    <span aria-hidden="true" style="font-size: 1.5rem; font-weight: bold;">&times;</span>
-                </button>
-            </div>
-            
-            <div style="padding: 1.5rem;">
-                <ul class="nav nav-tabs d-flex mb-4 challenge-modal-tabs" style="border-bottom: 2px solid var(--neo-outline); padding-bottom: 5px;">
-                    <li class="nav-item mr-3">
-                        <a class="nav-link active neo-bold" data-toggle="tab" href="#challenge" role="tab" style="color: var(--neo-text); border: none; padding: 5px 10px; background: transparent;"><i class="fas fa-align-left mr-2" aria-hidden="true"></i>DESCRIPTION</a>
-                    </li>
+<div class="modal-dialog" role="document">
+	<div class="modal-content" style="background: var(--neo-surface); color: var(--neo-text); border: var(--neo-border); box-shadow: var(--neo-shadow-lg); border-radius: 6px; overflow: hidden;">
+		<div class="modal-header d-flex justify-content-between align-items-center" style="background: var(--neo-blue); color: var(--neo-white); padding: 0.85rem 1.25rem; border-bottom: var(--neo-border); border-radius: 0;">
+			<h4 class="m-0 neo-bold text-uppercase challenge-modal-title" style="font-size: 1.15rem; letter-spacing: 0.05em;"><i class="fas fa-flag mr-2" aria-hidden="true" style="color: var(--neo-yellow);"></i>Challenge</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: var(--neo-white) !important; opacity: 1 !important; text-shadow: none !important; font-size: 1.8rem; line-height: 1; padding: 0.2rem 0.6rem; cursor: pointer; border: none; background: transparent;">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body" style="padding: 1.5rem;">
+			<ul class="nav nav-tabs d-flex mb-3 challenge-modal-tabs" style="border-bottom: 2px solid var(--neo-outline); padding-bottom: 5px;">
+				<li class="nav-item mr-3">
+					<a class="nav-link active neo-bold" data-toggle="tab" href="#challenge" role="tab" style="color: var(--neo-text); border: none; padding: 5px 10px; background: transparent;"><i class="fas fa-align-left mr-2" aria-hidden="true"></i>DESCRIPTION</a>
+				</li>
                     {% block submissions %}
                         {% if Configs.view_self_submissions %}
                         <li class="nav-item mr-3">
@@ -35,19 +33,21 @@
                 <div role="tabpanel">
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade show active" id="challenge">
-                            <h2 class='challenge-name neo-bold text-uppercase mb-2' style="font-size: 2rem;">
-                                {{ challenge.name }}
-                            </h2>
-                            <h3 class="challenge-value neo-bold mb-4" style="color: var(--neo-blue); font-size: 1.5rem;">
-                                <i class="fas fa-coins mr-2" aria-hidden="true"></i>{{ challenge.value }} PTS
-                            </h3>
-                            <div class="challenge-safety-alert mb-3" role="alert">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                <h2 class='challenge-name neo-bold text-uppercase mb-0' style="font-size: 1.75rem;">
+                                    {{ challenge.name }}
+                                </h2>
+                                <h3 class="challenge-value neo-bold mb-0" style="color: var(--neo-blue); font-size: 1.35rem;">
+                                    <i class="fas fa-coins mr-1" aria-hidden="true"></i>{{ challenge.value }} PTS
+                                </h3>
+                            </div>
+                            <div class="challenge-safety-alert mb-2" role="alert">
                                 <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
                                 <span>No DDoS, brute force, or infrastructure attacks are needed for this challenge.</span>
                             </div>
-                            <div class="challenge-context-row mb-3" aria-live="polite"></div>
+                            <div class="challenge-context-row mb-2" aria-live="polite"></div>
 
-                            <div class="challenge-tags mb-4">
+                            <div class="challenge-tags mb-3">
                                 {% block tags %}
                                     {% for tag in tags %}
                                         {% set normalized_tag = tag | lower %}
@@ -58,7 +58,7 @@
                                 {% endblock %}
                             </div>
 
-                            <div class="challenge-desc mb-4" style="font-size: 1.125rem; line-height: 1.6;">{% block description %}{{ challenge.html }}{% endblock %}</div>
+                            <div class="challenge-desc mb-3" style="font-size: 1.05rem; line-height: 1.55;">{% block description %}{{ challenge.html }}{% endblock %}</div>
 
                             <div class="challenge-connection-info mb-4">
                                 {% block connection_info %}
@@ -122,23 +122,31 @@
                             </div>
                             {% endif %}
 
-                            <div class="ctfdpp-submit-metadata mt-4">
-                                <div class="ctfdpp-metadata-heading">
-                                    <label class="neo-bold mb-0" for="ai-source-0">
-                                        <i class="fas fa-link mr-2" aria-hidden="true"></i>AI SOURCE
-                                    </label>
-                                    <button id="ctfdpp-add-ai-source" class="neo-icon-button" type="button" aria-label="Add AI source" title="Add AI source">
-                                        <i class="fas fa-plus" aria-hidden="true"></i>
-                                    </button>
+                            <div class="ctfdpp-submit-metadata mt-3 mb-3">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <div class="ctfdpp-metadata-heading">
+                                            <label class="neo-bold mb-0" for="ai-source-0">
+                                                <i class="fas fa-link mr-2" aria-hidden="true"></i>AI SOURCE
+                                            </label>
+                                            <button id="ctfdpp-add-ai-source" class="neo-icon-button" type="button" aria-label="Add AI source" title="Add AI source">
+                                                <i class="fas fa-plus" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                        <p class="small mt-1 mb-2" id="ai-source-help">{{ 'Required' if challenge.require_ai_source else 'Optional if no AI used' }}. Shared AI conversation link.</p>
+                                        <div id="ctfdpp-ai-sources" class="ctfdpp-ai-sources" aria-describedby="ai-source-help"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="neo-bold ctfdpp-solver-label mb-0 d-block" for="solver-files">
+                                            <i class="fas fa-file-code mr-2" aria-hidden="true"></i>SOLVER / SCRIPT
+                                        </label>
+                                        <p class="small mt-1 mb-2">Upload solver file(s) if any.</p>
+                                        <input id="solver-files" class="neo-input ctfdpp-file-input w-100" type="file" name="solver" multiple>
+                                    </div>
                                 </div>
-                                <div id="ctfdpp-ai-sources" class="ctfdpp-ai-sources"></div>
-                                <label class="neo-bold ctfdpp-solver-label mt-3 mb-2 d-block" for="solver-files">
-                                    <i class="fas fa-file-code mr-2" aria-hidden="true"></i>SOLVER / SCRIPT
-                                </label>
-                                <input id="solver-files" class="neo-input ctfdpp-file-input w-100" type="file" name="solver" multiple>
                             </div>
 
-                            <div class="submit-row d-flex gap-3 mt-4">
+                            <div class="submit-row d-flex gap-3 mt-3">
                                 <div class="form-group w-100 mb-0">
                                     {% block input %}<div class="challenge-answer-field">
                                         <input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}">
@@ -206,4 +214,3 @@
             </div>
 		</div>
 	</div>
-</div>

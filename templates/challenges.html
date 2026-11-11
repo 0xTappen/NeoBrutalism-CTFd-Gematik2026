@@ -69,9 +69,6 @@
 		</div>
 	</div>
 
-    <div class="modal fade" id="challenge-window" tabindex="-1" role="dialog" aria-hidden="true">
-    </div>
-
 	<div id='challenges-board'>
 		<div class="challenge-skeleton-grid" aria-label="Loading challenges">
             {% for _ in range(6) %}<div class="neo-skeleton neo-skeleton-card"></div>{% endfor %}
@@ -80,6 +77,11 @@
 </div>
 {% endblock %}
 
+{% block modals %}
+<div class="modal fade" id="challenge-window" tabindex="-1" role="dialog" aria-hidden="true">
+</div>
+{% endblock %}
+
 {% block entrypoint %}
-	<script defer src="{{ url_for('views.themes', path='js/pages/challenges.js', v='20260717-first-blood-sounds') }}"></script>
+	<script defer src="{{ url_for('views.themes', path='js/pages/challenges.js', v='20261010-solves-v2') }}"></script>
 {% endblock %}

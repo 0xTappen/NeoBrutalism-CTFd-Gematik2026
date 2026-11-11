@@ -1,0 +1,28 @@
+﻿/* Shared accessible controls, using the existing theme palette. */
+.ux-password-toggle { display:block; margin:10px 0 0 auto; border:0; background:transparent; color:var(--neo-text,#202333); text-decoration:underline; font:inherit; font-size:.8rem; font-weight:700; cursor:pointer; padding:4px; }
+[data-theme="dark"] .ux-password-toggle { color:#f5e64f; }
+.ux-progress { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:20px 24px; margin-bottom:28px; border:3px solid var(--neo-text,#202333); border-radius:8px; background:var(--neo-yellow,#f5e64f); color:#202333; box-shadow:5px 5px 0 #151722; }
+.ux-progress progress { width:45%; height:14px; accent-color:#4055db; border:0; border-radius:10px; overflow:hidden; }
+.ux-progress progress::-webkit-progress-bar { background:#fffdf5; }
+.ux-progress progress::-webkit-progress-value { background:#4055db; }
+.ux-progress progress::-moz-progress-bar { background:#4055db; }
+.ux-ranking-tools { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin:22px 0 12px; }
+.ux-ranking-tools label { margin:0; font-weight:800; }
+.ux-ranking-tools input { flex:1; min-width:180px; width:auto; }
+.ux-ranking-status { font-size:.85rem; min-height:1.5em; }
+.completion-matrix .ux-own-row td { box-shadow:inset 0 3px 0 #4055db,inset 0 -3px 0 #4055db; }
+.completion-matrix .ux-own-row .matrix-account a { text-decoration:underline; text-decoration-thickness:3px; text-underline-offset:5px; }
+.ux-copy-team { margin:12px 12px 18px 0; font-size:.8rem; }
+.ux-copy-status { font-size:.85rem; }
+.ux-skip-link { position:fixed; left:16px; top:-100px; z-index:3000; background:#f5e64f; color:#202333; padding:12px 20px; border:3px solid #202333; font-weight:900; }
+.ux-skip-link:focus { top:12px; }
+main :is(a,button,input,select,textarea):focus-visible { outline:3px solid #6478ff; outline-offset:4px; }
+.ux-auth-page { padding-bottom:48px; }
+.ux-auth-page .neo-card { border-radius:12px; }
+.ux-auth-page .neo-input { min-height:50px; border-radius:6px; }
+.ux-auth-page form > .d-flex { gap:16px; flex-wrap:wrap; }
+[data-theme="dark"] .ux-auth-page .neo-input { background:#202331; color:#f7f6ed; }
+[data-theme="dark"] .ux-auth-page .neo-input::placeholder { color:#b9bfd2; }
+[data-theme="dark"] .ux-auth-page a { color:#f5e64f !important; }
+[hidden].ux-progress,.ux-ranking-tools [hidden],.completion-matrix tr[hidden] { display:none !important; }
+@media(max-width:600px) { .ux-progress { align-items:stretch; flex-direction:column; gap:12px; padding:18px; } .ux-progress progress { width:100%; } .ux-ranking-tools { align-items:stretch; flex-direction:column; } .ux-ranking-tools input { width:100%; min-width:0; } .ux-auth-page { margin-top:24px !important; } .ux-auth-page .neo-card { margin-top:12px !important; padding:22px; } }

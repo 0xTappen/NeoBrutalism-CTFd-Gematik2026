@@ -1,0 +1,48 @@
+﻿/* Enrollment-only design tokens and responsive layout. */
+.team-enrollment { --paper:#fffdf5; --ink:#202333; --muted:#626579; --edge:#202333; --yellow:#f5e64f; --blue:#4055db; max-width:1060px; margin:0 auto; padding:clamp(36px,6vw,76px) 24px 64px; color:var(--ink); }
+[data-theme="dark"] .team-enrollment { --paper:#202331; --ink:#f7f6ed; --muted:#b9bfd2; --edge:#090b12; }
+.team-enrollment__eyebrow { display:inline-flex; gap:10px; align-items:center; padding:7px 12px; background:var(--yellow); color:#202333; border:2px solid #202333; box-shadow:3px 3px 0 #202333; font-size:.75rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; transform:rotate(-2deg); }
+.team-enrollment__header { margin-bottom:34px; }
+.team-enrollment__header h1 { margin:24px 0 12px; font-family:var(--neo-display-font,'Fredoka',sans-serif); font-size:clamp(2.4rem,6vw,4.2rem); font-weight:600; line-height:1.08; letter-spacing:-.035em; color:var(--ink); }
+.team-enrollment__header h1 span { color:var(--blue); }
+[data-theme="dark"] .team-enrollment__header h1 span { color:var(--yellow); }
+.team-enrollment__header p { color:var(--muted); max-width:620px; line-height:1.75; margin:0; }
+.team-enrollment__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:26px; }
+.team-enrollment__card { display:flex; flex-direction:column; padding:clamp(24px,4vw,36px); background:var(--paper); border:3px solid var(--edge); border-radius:12px; box-shadow:7px 7px 0 var(--edge); transition:transform .18s ease,box-shadow .18s ease; }
+.team-enrollment__card:hover { transform:translate(-2px,-3px); box-shadow:9px 10px 0 var(--edge); }
+.team-enrollment__card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:26px; gap:12px; }
+.team-enrollment__icon { display:grid; place-items:center; width:58px; height:58px; flex-shrink:0; border:2px solid #202333; border-radius:10px; background:var(--blue); color:#fff; font-size:1.45rem; transform:rotate(-5deg); }
+.team-enrollment__card--create .team-enrollment__icon { background:var(--yellow); color:#202333; transform:rotate(5deg); }
+.team-enrollment__tag { font-size:.68rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; color:var(--muted); }
+.team-enrollment__card h2 { font-family:var(--neo-display-font,'Fredoka',sans-serif); font-size:1.9rem; font-weight:600; margin:0 0 12px; color:var(--ink); }
+.team-enrollment__card p { margin-bottom:26px; color:var(--muted); line-height:1.75; }
+.team-enrollment__action { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding:13px 18px; border:2px solid #151722; border-radius:6px; box-shadow:4px 4px 0 #151722; background:var(--blue); color:#fff; font-weight:900; text-decoration:none; transition:transform .15s ease,box-shadow .15s ease; }
+.team-enrollment__action:hover { color:#fff; text-decoration:none; transform:translate(-1px,-2px); box-shadow:5px 6px 0 #151722; }
+.team-enrollment__action:active { transform:translate(3px,3px); box-shadow:1px 1px 0 #151722; }
+.team-enrollment__action:focus-visible { outline:3px solid var(--ink); outline-offset:6px; }
+.team-enrollment__card--create .team-enrollment__action { background:var(--yellow); color:#202333; }
+.team-enrollment__note { display:flex; gap:10px; align-items:baseline; margin:28px 0 0; color:var(--muted); font-size:.85rem; line-height:1.6; }
+.team-enrollment__official { margin-bottom:26px; }
+@media(max-width:640px) { .team-enrollment { padding:36px 20px 44px; } .team-enrollment__grid { grid-template-columns:1fr; gap:24px; } .team-enrollment__header h1 { font-size:2.6rem; } }
+@media(prefers-reduced-motion:reduce) { .team-enrollment__card,.team-enrollment__action { transition:none; } .team-enrollment__card:hover { transform:none; } }
+/* Shared join/create form layout. */
+.team-form-layout { display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:56px; align-items:start; }
+.team-form-intro { padding-top:20px; }
+.team-form-intro h1 { font-size:clamp(2.6rem,5vw,3.8rem); }
+.team-form-back { display:inline-flex; gap:10px; align-items:center; margin-bottom:30px; color:var(--muted); font-weight:800; font-size:.85rem; }
+.team-form-back:hover { color:var(--ink); }
+.team-form-panel { padding:32px; background:var(--paper); border:3px solid var(--edge); border-radius:12px; box-shadow:8px 8px 0 var(--edge); min-width:0; }
+.team-form-panel h2 { font-family:var(--neo-display-font,'Fredoka',sans-serif); color:var(--ink); font-size:1.5rem; margin:0 0 24px; }
+.team-form-panel label { display:block; color:var(--ink); font-weight:800; margin-bottom:10px; }
+.team-form-panel .form-group { margin-bottom:24px; }
+.team-form-panel .form-control { width:100%; min-height:50px; padding:12px 14px; background:var(--paper); color:var(--ink); border:2px solid var(--muted); border-radius:6px; box-shadow:none; }
+.team-form-panel .form-control:focus { border-color:var(--blue); outline:3px solid var(--blue); outline-offset:3px; }
+.team-form-panel .form-control::placeholder { color:var(--muted); opacity:.8; }
+.team-form-panel .team-enrollment__action { width:100%; display:block; text-align:center; cursor:pointer; margin-top:26px; }
+.team-form-panel--create .team-enrollment__action { background:var(--yellow); color:#202333; }
+.team-form-help { color:var(--muted); font-size:.85rem; line-height:1.7; }
+.team-form-panel .alert { border:2px solid var(--muted); border-radius:6px; font-size:.85rem; }
+.team-form-switch { margin:26px 0 0; text-align:center; color:var(--muted); font-size:.85rem; }
+.team-form-switch a { color:var(--ink); text-decoration:underline; font-weight:800; }
+.team-form-back:focus-visible,.team-form-switch a:focus-visible { outline:3px solid var(--blue); outline-offset:4px; }
+@media(max-width:767px) { .team-form-layout { grid-template-columns:1fr; gap:12px; } .team-form-intro { padding-top:0; } .team-form-panel { padding:24px; } .team-form-back { margin-bottom:22px; } }

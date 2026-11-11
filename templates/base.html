@@ -16,35 +16,45 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
 	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/fonts.css', v='20260716-font-utility') }}">
-	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/main.css', v='20260717-productivity') }}">
+	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/main.css', v='20261009-sfx-v3') }}">
 	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/core.css', v='20260716-unified-font') }}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap">
+	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/refinement.css', v='20261010-noscroll-v1') }}">
+	<meta name="description" content="Compete in {{ Configs.ctf_name }}: solve cybersecurity challenges, capture flags, and climb the scoreboard.">
+	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/enhancements.css', v='20261010-ux-v1') }}">
+	<link rel="stylesheet" href="{{ url_for('views.themes', path='css/neo-polish.css', v='20261109-navbar-v2') }}">
 	{% block stylesheets %}
 	{% endblock %}
 
 	{{ Plugins.styles }}
-	<script type="text/javascript">
-		var init = {
-			'urlRoot': "{{ request.script_root }}",
-			'csrfNonce': "{{ Session.nonce }}",
-			'userMode': "{{ Configs.user_mode }}",
-			'userId': {{ Session.id }},
-			'userName': {{ User.name | tojson }},
-			'userEmail': {{ User.email | tojson }},
-			'teamId': {{ Team.id | tojson }}, 
-			'teamName': {{ Team.name | tojson }},
-			'start': {{ Configs.start | tojson }},
-			'end': {{ Configs.end | tojson }},
-			'theme_settings': {{ Configs.theme_settings | tojson }}
+	<script id="ctfd-config" type="application/json">
+		{
+			"urlRoot": {{ request.script_root | tojson }},
+			"csrfNonce": {{ Session.nonce | tojson }},
+			"userMode": {{ Configs.user_mode | tojson }},
+			"userId": {{ Session.id | default(None) | tojson }},
+			"userName": {{ User.name | tojson }},
+			"userEmail": {{ User.email | tojson }},
+			"teamId": {{ Team.id | tojson }}, 
+			"teamName": {{ Team.name | tojson }},
+			"start": {{ Configs.start | tojson }},
+			"end": {{ Configs.end | tojson }},
+			"theme_settings": {{ Configs.theme_settings | tojson }}
 		}
+	</script>
+	<script type="text/javascript">
+		window.init = JSON.parse(document.getElementById("ctfd-config").textContent);
+		var init = window.init;
 	</script>
 	{{ Configs.theme_header }}
 </head>
 <body>
+	<a class="ux-skip-link" id="skip-to-content" href="#main-content">Skip to content</a>
 	<div id="neo-toast-region" class="neo-toast-region" aria-live="polite" aria-atomic="false"></div>
 	{% include "components/navbar.html" %}
 	<div id="neo-announcement-region" class="neo-announcement-region" aria-live="polite"></div>
 
-	<main role="main">
+	<main role="main" id="main-content" tabindex="-1">
 		{% block content %}
 		{% endblock %}
 	</main>
@@ -61,16 +71,18 @@
 		</div>
 		<div class="container neo-footer-bottom">
 			<span>&copy; 2026 GEMATIK</span>
-			<span>PROTEK X BEM FTIK</span>
 		</div>
 	</footer>
+
+	{% block modals %}
+	{% endblock %}
 
 	<script defer src="{{ url_for('views.themes', path='js/vendor.bundle.js', v='20260716-font-utility') }}"></script>
 	<script defer src="{{ url_for('views.themes', path='js/core.js', v='20260716-font-utility') }}"></script>
 	<script defer src="{{ url_for('views.themes', path='js/helpers.js', v='20260716-font-utility') }}"></script>
 
 	{% block entrypoint %}
-	<script defer src="{{ url_for('views.themes', path='js/pages/main.js', v='20260717-productivity') }}"></script>
+	<script defer src="{{ url_for('views.themes', path='js/pages/main.js', v='20261009-sfx-v3') }}"></script>
 	{% endblock %}
 
 	{% block scripts %}
@@ -79,5 +91,7 @@
 	{{ Plugins.scripts }}
 
 	{{ Configs.theme_footer }}
+<script defer src="{{ url_for('views.themes', path='js/motion.js', v='20261009-motion2') }}"></script>
+<script defer src="{{ url_for('views.themes', path='js/enhancements.js', v='20261010-ux-v1') }}"></script>
 </body>
 </html>

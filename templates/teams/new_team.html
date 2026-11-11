@@ -1,45 +1,42 @@
 {% extends "base.html" %}
 
 {% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('views.themes', path='css/team-enrollment.css', v='20261010-forms-v2') }}">
 {% endblock %}
 
 {% block content %}
-	<div class="jumbotron">
-		<div class="container">
-			<h1>Create Team</h1>
+<section class="team-enrollment" aria-labelledby="create-team-title">
+	<a class="team-form-back" id="create-back" href="{{ url_for('teams.private') }}"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Team</a>
+	<div class="team-form-layout">
+		<header class="team-enrollment__header team-form-intro">
+			<span class="team-enrollment__eyebrow"><i class="fas fa-flag" aria-hidden="true"></i> Take the lead</span>
+			<h1 id="create-team-title">Create your team.<br><span>Make your mark.</span></h1>
+			<p>Every great team starts with a name. Build your crew and take on {{ Configs.ctf_name }} together.</p>
+		</header>
+		<div class="team-form-panel team-form-panel--create">
+			<h2>Create Team</h2>
+			{% include "components/errors.html" %}
+			{% with form = Forms.teams.TeamRegisterForm() %}
+			{% from "macros/forms.html" import render_extra_fields %}
+			<form method="POST" id="create-team-form">
+				<div class="form-group">
+					{{ form.name.label }}
+					{{ form.name(class="form-control", placeholder="Choose your team name", autocomplete="off") }}
+				</div>
+				<div class="form-group">
+					{{ form.password.label }}
+					{{ form.password(class="form-control", placeholder="Choose a team password", autocomplete="new-password", aria_describedby="create-team-help") }}
+				</div>
+				{{ render_extra_fields(form.extra) }}
+				<p class="team-form-help" id="create-team-help">After creating your team, share the team name and password privately with your teammates so they can join. Use a different password from your personal account.</p>
+				{{ form.submit(class="team-enrollment__action") }}
+				{{ form.nonce() }}
+			</form>
+			{% endwith %}
+			<p class="team-form-switch">Already have a crew? <a id="create-join-link" href="{{ url_for('teams.join') }}">Join a team</a></p>
 		</div>
 	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 offset-md-3">
-				{% include "components/errors.html" %}
-
-				{% with form = Forms.teams.TeamRegisterForm() %}
-				{% from "macros/forms.html" import render_extra_fields %}
-				<form method="POST">
-					<div class="form-group">
-						<b>{{ form.name.label }}</b>
-						{{ form.name(class="form-control") }}
-					</div>
-					<div class="form-group">
-						<b>{{ form.password.label }}</b>
-						{{ form.password(class="form-control") }}
-					</div>
-
-					{{ render_extra_fields(form.extra) }}
-
-					<div class="row pt-3">
-						<div class="col-md-12">
-							<p>After creating your team, share the team name and password with your teammates so they can join your team.</p>
-							{{ form.submit(class="btn btn-success float-right") }}
-						</div>
-					</div>
-					{{ form.nonce() }}
-				</form>
-				{% endwith %}
-			</div>
-		</div>
-	</div>
+</section>
 {% endblock %}
 
 {% block scripts %}

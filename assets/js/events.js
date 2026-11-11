@@ -11,9 +11,10 @@ import {
 const EventSource = NativeEventSource || EventSourcePolyfill;
 
 export default root => {
-  const source = new EventSource(root + "/events");
+  let source = null;
   const wc = new WindowController();
   const howl = new Howl({
+    preload: false,
     src: [
       root + "/themes/core/static/sounds/notification.webm",
       root + "/themes/core/static/sounds/notification.mp3"
@@ -27,7 +28,90 @@ export default root => {
     howl
   };
 
+  const firstBloodSound = new Howl({
+    src: [new URL("../music/first-blood_TJM7IEK.mp3", import.meta.url).href],
+    format: ["mp3"],
+    volume: 0.85
+  });
+  const seen = new Set();
+  const ensureAudio = () => {
+    if (typeof Howler !== "undefined" && Howler.ctx && Howler.ctx.state === "suspended") {
+      Howler.ctx.resume();
+    }
+  };
+  document.addEventListener("pointerdown", ensureAudio, { passive: true });
+  document.addEventListener("keydown", ensureAudio, { passive: true });
+  document.addEventListener("click", ensureAudio, { passive: true });
+
+  function firstBlood(data) {
+    if (!data || seen.has(data.solve_id)) return;
+    seen.add(data.solve_id);
+    if (seen.size > 100) seen.delete(seen.values().next().value);
+    const card = document.createElement("section");
+    card.className = "neo-first-blood";
+    card.setAttribute("role", "status");
+    const emblem = document.createElement("div");
+    emblem.className = "neo-blood-emblem";
+    emblem.textContent = "01";
+    emblem.setAttribute("aria-hidden", "true");
+    const content = document.createElement("div");
+    content.className = "neo-blood-content";
+    const eyebrow = document.createElement("small");
+    eyebrow.textContent = "ARENA UPDATE / FIRST CAPTURE";
+    const title = document.createElement("strong");
+    title.textContent = "FIRST BLOOD!";
+    const body = document.createElement("p");
+    const player = document.createElement("b");
+    player.textContent = data.account;
+    const challenge = document.createElement("span");
+    challenge.textContent = data.challenge;
+    body.append(player, document.createTextNode(" captured "), challenge);
+    content.append(eyebrow, title, body);
+    const close = document.createElement("button");
+    close.type = "button";
+    close.textContent = "\u00d7";
+    close.setAttribute("aria-label", "Dismiss first blood announcement");
+    const dismiss = () => {
+      card.classList.add("is-leaving");
+      setTimeout(() => card.remove(), 250);
+    };
+    close.onclick = dismiss;
+    const progress = document.createElement("div");
+    progress.className = "neo-blood-progress";
+    progress.setAttribute("aria-hidden", "true");
+    card.append(emblem, content, close, progress);
+    const old = document.querySelector(".neo-first-blood");
+    if (old) old.remove();
+    document.body.append(card);
+    setTimeout(dismiss, 8000);
+
+    if (localStorage.getItem("gematik-effects-muted") !== "true") {
+      const now = Date.now();
+      const lastFb = Number(localStorage.getItem("gematik-last-fb-sound") || 0);
+      if (now - lastFb >= 1500) {
+        localStorage.setItem("gematik-last-fb-sound", String(now));
+        try {
+          ensureAudio();
+          firstBloodSound.stop();
+          firstBloodSound.play();
+        } catch (e) {
+          console.warn("First blood playback error:", e);
+        }
+      }
+    }
+    if (window.updateChallengeBoard) window.updateChallengeBoard();
+  }
+  wc.first_blood = data => firstBlood(data);
+
   function connect() {
+    if (source) return;
+    source = new EventSource(root + "/events");
+    CTFd.events.source = source;
+    source.addEventListener("first_blood", event => {
+      const data = JSON.parse(event.data);
+      wc.broadcast("first_blood", data);
+      firstBlood(data, true);
+    });
     source.addEventListener(
       "notification",
       function(event) {
@@ -39,7 +123,10 @@ export default root => {
 
         // Only play sounds in the master tab
         if (data.sound) {
-          howl.play();
+          if (unlocked && localStorage.getItem("gematik-effects-muted") !== "true") {
+            if (howl.state() === "unloaded") howl.load();
+            howl.play();
+          }
         }
       },
       false
@@ -49,6 +136,7 @@ export default root => {
   function disconnect() {
     if (source) {
       source.close();
+      source = null;
     }
   }
 
@@ -108,6 +196,8 @@ export default root => {
     }
   }
 
+  wc.notification = data => render(data);
+
   wc.alert = function(data) {
     render(data);
   };
@@ -127,4 +217,5 @@ export default root => {
       disconnect();
     }
   };
+  if (wc.isMaster) connect();
 };

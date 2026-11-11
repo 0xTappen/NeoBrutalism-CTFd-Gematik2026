@@ -14,13 +14,13 @@
 }
 
 @mixin neo-hover {
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   &:hover {
-    transform: translate(-2px, -2px);
+    transform: translate(-4px, -4px);
     @include neo-shadow('lg');
   }
   &:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 var(--neo-shadow-color);
+    transform: translate(8px, 8px);
+    box-shadow: 0px 0px 0 var(--neo-shadow-color) !important;
   }
 }

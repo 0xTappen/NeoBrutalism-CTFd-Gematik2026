@@ -1,30 +1,36 @@
-<div class="jumbotron" style="background-color: var(--neo-blue); color: var(--neo-white); border-bottom: var(--neo-border); border-bottom-color: var(--neo-black); border-radius: 0; padding: 4rem 2rem; margin-bottom: 0;">
-    <div class="container position-relative">
-        <!-- Decorative brutalist shape -->
-        <div class="d-none d-md-block" style="position: absolute; right: 0; top: -20px; width: 100px; height: 100px; background: var(--neo-yellow); border: var(--neo-border); z-index: 1;"></div>
-        <div class="d-none d-md-block" style="position: absolute; right: 20px; top: 10px; width: 100px; height: 100px; background: var(--neo-green); border: var(--neo-border); z-index: 0;"></div>
-
-        <h1 class="display-3 neo-bold" style="position: relative; z-index: 2;">
-            GEMATIK 2026<br>
-            <span style="color: var(--neo-yellow); background: var(--neo-black); padding: 0 10px; display: inline-block; transform: rotate(-2deg); margin-top: 10px;">CTF COMPETITION</span>
-        </h1>
-        <p class="lead mt-4 mb-5" style="max-width: 600px; font-weight: 500; font-size: 1.25rem;">
-            Welcome to the ultimate cybersecurity challenge. Test your skills, solve puzzles, and climb the leaderboard in Gematik 2026.
-        </p>
-        <div class="d-flex gap-3 flex-wrap">
-            {% if authed() %}
-                <a class="neo-button neo-button-secondary neo-bold" href="{{ url_for('challenges.listing') }}" style="font-size: 1.25rem;">START HACKING</a>
-                <a class="neo-button neo-button-primary neo-bold" href="{{ url_for('scoreboard.listing') }}" style="font-size: 1.25rem;">SCOREBOARD</a>
-            {% else %}
-                {% if registration_visible() %}
-                    <a class="neo-button neo-button-secondary neo-bold" href="{{ url_for('auth.register') }}" style="font-size: 1.25rem;">REGISTER NOW</a>
-                {% endif %}
-                <a class="neo-button neo-button-primary neo-bold" href="{{ url_for('auth.login') }}" style="font-size: 1.25rem;">LOGIN</a>
-            {% endif %}
-        </div>
+<section class="neo-hero" aria-labelledby="hero-title">
+  <div class="container neo-hero-grid">
+    <div>
+      <div class="neo-eyebrow">GEMATIK 2026 / CAPTURE THE FLAG</div>
+      <h1 id="hero-title">Think outside.<br><span>Hack inside.</span></h1>
+      <p class="neo-hero-copy">Break down the problem. Find the hidden flag. Put your cybersecurity skills to the test and make your mark on the scoreboard.</p>
+      <div class="neo-hero-actions">
+        {% if authed() %}
+          <a id="hero-challenges" class="neo-button neo-button-secondary" href="{{ url_for('challenges.listing') }}">Start hacking &nearr;</a>
+          <a id="hero-scoreboard" class="neo-button neo-button-primary" href="{{ url_for('scoreboard.listing') }}">View scoreboard</a>
+        {% else %}
+          {% if registration_visible() %}
+          <a id="hero-register" class="neo-button neo-button-secondary" href="{{ url_for('auth.register') }}">Join the competition &nearr;</a>
+          {% endif %}
+          <a id="hero-login" class="neo-button neo-button-primary" href="{{ url_for('auth.login') }}">Player login</a>
+        {% endif %}
+      </div>
     </div>
+    <!-- Decorative brutalist shape: a terminal-inspired competition poster. -->
+    <div class="neo-hero-art" aria-hidden="true">
+      <div class="neo-terminal-bar"><span>GEMATIK / TERMINAL</span><span>+ + +</span></div>
+      <div class="neo-terminal-body">
+        <p>$ ./accept-the-challenge</p>
+        <div class="neo-terminal-symbol">&lt;/&gt;_</div>
+        <p>Curiosity is your best exploit.</p>
+        <span class="neo-terminal-label">THINK. BREAK. CAPTURE.</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="neo-category-strip" aria-label="Competition disciplines">
+  <div class="container"><span>01 / WEB</span><span>02 / CRYPTOGRAPHY</span><span>03 / FORENSICS</span><span>04 / REVERSE ENGINEERING</span><span>05 / PWN</span></div>
 </div>
-
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8">

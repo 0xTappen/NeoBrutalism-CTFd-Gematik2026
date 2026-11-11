@@ -1,48 +1,44 @@
 {% extends "base.html" %}
 
 {% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('views.themes', path='css/team-enrollment.css', v='20261010-team-v1') }}">
 {% endblock %}
 
 {% block content %}
-	<div class="jumbotron">
-		<div class="container">
-			<h1>Team</h1>
-		</div>
+<section class="team-enrollment" aria-labelledby="team-enrollment-title">
+	<header class="team-enrollment__header">
+		<span class="team-enrollment__eyebrow"><i class="fas fa-flag" aria-hidden="true"></i> Better together</span>
+		<h1 id="team-enrollment-title">Your team.<br><span>Your next big win.</span></h1>
+		<p>Welcome to {{ Configs.ctf_name }}! Find your crew or start a new one. Join a team to tackle challenges and capture flags together.</p>
+	</header>
+	{% set official_teams = integrations.mlc() %}
+	{% if official_teams %}
+	<div class="team-enrollment__official">
+		<a id="team-enrollment-official" class="team-enrollment__action" href="{{ url_for('auth.oauth_login') }}">Play with Official Team <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 offset-md-3 text-center">
-				<p>Welcome to {{ Configs.ctf_name }}!</p>
-				<p>
-					In order to participate you must either join or create a team.
-				</p>
+	{% endif %}
+	<div class="team-enrollment__grid">
+		<article class="team-enrollment__card" aria-labelledby="team-join-title">
+			<div class="team-enrollment__card-top">
+				<span class="team-enrollment__icon"><i class="fas fa-users" aria-hidden="true"></i></span>
+				<span class="team-enrollment__tag">Find your crew</span>
 			</div>
-		</div>
-		{% if integrations.mlc() %}
-		<div class="row">
-			<div class="col-md-6 offset-md-3 text-center">
-				<a class="btn btn-primary w-100" href="{{ url_for('auth.oauth_login') }}">Play with Official Team</a>
+			<h2 id="team-join-title">Already have a team?</h2>
+			<p>Your teammates are waiting. Use your team's name and password to join the action.</p>
+			<a id="team-enrollment-join" class="team-enrollment__action" href="{{ url_for('teams.join') }}">{% if official_teams %}Join Unofficial Team{% else %}Join Team{% endif %}<i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+		</article>
+		<article class="team-enrollment__card team-enrollment__card--create" aria-labelledby="team-create-title">
+			<div class="team-enrollment__card-top">
+				<span class="team-enrollment__icon"><i class="fas fa-plus" aria-hidden="true"></i></span>
+				<span class="team-enrollment__tag">Take the lead</span>
 			</div>
-		</div>
-		<div class="row pt-3">
-			<div class="col-md-3 offset-md-3 text-center">
-				<a class="btn btn-light w-100" href="{{ url_for('teams.join') }}">Join Unofficial Team</a>
-			</div>
-			<div class="col-md-3 text-center">
-				<a class="btn btn-light w-100" href="{{ url_for('teams.new') }}">Create Unofficial Team</a>
-			</div>
-		</div>
-		{% else %}
-		<div class="row pt-3">
-			<div class="col-md-3 offset-md-3 text-center">
-				<a class="btn btn-primary w-100" href="{{ url_for('teams.join') }}">Join Team</a>
-			</div>
-			<div class="col-md-3 text-center">
-				<a class="btn btn-primary w-100" href="{{ url_for('teams.new') }}">Create Team</a>
-			</div>
-		</div>
-		{% endif %}
+			<h2 id="team-create-title">Start something great.</h2>
+			<p>Pick a name, build your team, and bring your friends. Your next challenge starts here.</p>
+			<a id="team-enrollment-create" class="team-enrollment__action" href="{{ url_for('teams.new') }}">{% if official_teams %}Create Unofficial Team{% else %}Create Team{% endif %}<i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+		</article>
 	</div>
+	<p class="team-enrollment__note"><i class="fas fa-info-circle" aria-hidden="true"></i> Joining an existing team? Ask your team captain for the team name and password.</p>
+</section>
 {% endblock %}
 
 {% block scripts %}

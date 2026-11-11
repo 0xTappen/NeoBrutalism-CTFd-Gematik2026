@@ -149,31 +149,40 @@ const toggleChallengeBookmark = challenge => {
 
 const correctAnswerSound = new Howl({
   src: [new URL("../../music/tbeb-correct-answer.mp3", import.meta.url).href],
-  volume: 0.7
+  format: ["mp3"],
+  volume: 0.8
 });
 const incorrectAnswerSound = new Howl({
   src: [new URL("../../music/zzzzzzzzzz-incorrect.mp3", import.meta.url).href],
-  volume: 0.7
+  format: ["mp3"],
+  volume: 0.8
 });
 const alreadySolvedSound = new Howl({
   src: [new URL("../../music/dj-stop.mp3", import.meta.url).href],
-  volume: 0.7
+  format: ["mp3"],
+  volume: 0.8
 });
-const firstBloodSounds = [
-  new Howl({
-    src: [new URL("../../music/first-blood_TJM7IEK.mp3", import.meta.url).href],
-    volume: 0.75
-  }),
-  new Howl({
-    src: [new URL("../../music/lol-first-blood.mp3", import.meta.url).href],
-    volume: 0.75
-  })
-];
-const submissionSounds = [correctAnswerSound, incorrectAnswerSound, alreadySolvedSound, ...firstBloodSounds];
+const firstBloodSound = new Howl({
+  src: [new URL("../../music/first-blood_TJM7IEK.mp3", import.meta.url).href],
+  format: ["mp3"],
+  volume: 0.9
+});
+const submissionSounds = [correctAnswerSound, incorrectAnswerSound, alreadySolvedSound, firstBloodSound];
 
 function playSubmissionSound(sound) {
-  submissionSounds.forEach(effect => effect.stop());
-  sound.play();
+  submissionSounds.forEach(effect => {
+    try { effect.stop(); } catch (_) {}
+  });
+  if (localStorage.getItem("gematik-effects-muted") !== "true") {
+    try {
+      if (typeof Howler !== "undefined" && Howler.ctx && Howler.ctx.state === "suspended") {
+        Howler.ctx.resume();
+      }
+      sound.play();
+    } catch (e) {
+      console.warn("Submission sound error:", e);
+    }
+  }
 }
 
 function applyChallengeFilters() {
@@ -354,6 +363,7 @@ const loadChalByName = name => {
 };
 
 const displayChal = chal => {
+  const trigger = $(".challenge-button").filter(function() { return String(this.value) === String(chal.id); });
   return Promise.all([
     CTFd.api.get_challenge({ challengeId: chal.id }),
     $.getScript(config.urlRoot + chal.script),
@@ -414,25 +424,25 @@ const displayChal = chal => {
       }
     }
 
-    $(".challenge-solves").click(function(_event) {
+    $(".challenge-solves").off("click").on("click", function(_event) {
       getSolves($("#challenge-id").val());
     });
-    $(".challenge-submissions").click(function(_event) {
+    $(".challenge-submissions").off("click").on("click", function(_event) {
       getSelfSubmissions($("#challenge-id").val());
     });
-    $(".nav-tabs a").click(function(event) {
+    $(".nav-tabs a").off("click.challengeTab").on("click.challengeTab", function(event) {
       event.preventDefault();
       $(this).tab("show");
     });
 
-    $(".load-hint").on("click", function(_event) {
+    $(".load-hint").off("click").on("click", function(_event) {
       loadHint($(this).data("hint-id"));
     });
 
-    $("#ctfdpp-add-ai-source").on("click", () => addAiSourceField());
+    $("#ctfdpp-add-ai-source").off("click").on("click", () => addAiSourceField());
     if ($("#ctfdpp-ai-sources").length) addAiSourceField();
 
-    $("#challenge-submit").click(function(event) {
+    $("#challenge-submit").off("click").on("click", function(event) {
       event.preventDefault();
       $("#challenge-submit").addClass("disabled-button");
       $("#challenge-submit").prop("disabled", true);
@@ -444,7 +454,7 @@ const displayChal = chal => {
         .then(enableSubmit);
     });
 
-    $("#challenge-input").keyup(event => {
+    $("#challenge-input").off("keyup").on("keyup", event => {
       if (event.keyCode == 13) {
         $("#challenge-submit").click();
       }
@@ -463,11 +473,14 @@ const displayChal = chal => {
     window.location.replace(
       window.location.href.split("#")[0] + `#${chal.name}-${chal.id}`
     );
-    $("#challenge-window").modal({
-      backdrop: true,
-      keyboard: true,
-      show: true
-    });
+    if ($("#challenge-window").parent()[0] !== document.body) {
+      $("#challenge-window").appendTo("body");
+    }
+    $("#challenge-window").scrollTop(0);
+    $("#challenge-window .modal-body").scrollTop(0);
+    $("#challenge-window").modal("show");
+  }).catch(() => {
+    if (window.neoToast) window.neoToast("Unable to load challenge. Please try again.", "error");
   });
 };
 
@@ -487,6 +500,20 @@ function renderRequestError(error) {
 
 function renderSubmissionResponse(response) {
   const result = response.data;
+  if (!result) {
+    renderRequestError(new Error("The server returned an unexpected response. Please retry."));
+    enableSubmit();
+    return;
+  }
+  if (result.status === "invalid") {
+    renderRequestError(new Error(result.message));
+    const metadataInput = /AI Source/i.test(result.message)
+      ? $(".ctfdpp-ai-source").first()
+      : $("#solver-files");
+    metadataInput.trigger("focus");
+    enableSubmit();
+    return;
+  }
 
   const result_message = $("#result-message");
   const result_notification = $("#result-notification");
@@ -531,10 +558,12 @@ function renderSubmissionResponse(response) {
   } else if (result.status === "correct") {
     // Challenge Solved
     const isFirstBlood = Number(CTFd._internal.challenge.data.solves || 0) === 0;
-    const successSound = isFirstBlood
-      ? firstBloodSounds[Math.floor(Math.random() * firstBloodSounds.length)]
-      : correctAnswerSound;
-    playSubmissionSound(successSound);
+    if (isFirstBlood) {
+      localStorage.setItem("gematik-last-fb-sound", String(Date.now()));
+      playSubmissionSound(firstBloodSound);
+    } else {
+      playSubmissionSound(correctAnswerSound);
+    }
     recordChallengeActivity(CTFd._internal.challenge.data, "SOLVED");
     result_notification.addClass(
       "alert alert-success alert-dismissable text-center"
@@ -618,27 +647,47 @@ function markSolves() {
 }
 
 function getSolves(id) {
+  const box = $("#challenge-solves-names");
+  const current = () => box[0] === document.getElementById("challenge-solves-names") && String($("#challenge-id").val()) === String(id);
+  const showState = message => box.empty().append(
+    $("<tr></tr>").append($("<td colspan='2' role='status'></td>").text(message))
+  );
+  showState("Loading solves...");
   return CTFd.api.get_challenge_solves({ challengeId: id }).then(response => {
+    if (!current()) return;
+    if (response.success === false || !Array.isArray(response.data)) {
+      throw new Error("Unable to load solves");
+    }
     const data = response.data;
     $(".challenge-solves").html(
-      `<i class="fas fa-check-circle mr-2" aria-hidden="true"></i>${parseInt(data.length)} Solves`
+      `<i class="fas fa-check-circle mr-2" aria-hidden="true"></i>${data.length} ${data.length === 1 ? "Solve" : "Solves"}`
     );
-    const box = $("#challenge-solves-names");
-    box.empty();
-    for (let i = 0; i < data.length; i++) {
-      const id = data[i].account_id;
-      const name = data[i].name;
-      const date = dayjs(data[i].date).fromNow();
-      const account_url = data[i].account_url;
-      box.append(
-        '<tr><td><a href="{0}">{2}</td><td>{3}</td></tr>'.format(
-          account_url,
-          id,
-          htmlEntities(name),
-          date
-        )
-      );
+    if (!data.length) {
+      showState("No solves to display yet.");
+      return;
     }
+    box.empty();
+    data.forEach(solve => {
+      const account = $("<td></td>");
+      const url = new URL(solve.account_url, window.location.href);
+      if (url.origin === window.location.origin && /^https?:$/.test(url.protocol)) {
+        account.append($("<a></a>").attr("href", url.href).text(solve.name));
+      } else {
+        account.text(solve.name);
+      }
+      const date = dayjs(solve.date);
+      box.append($("<tr></tr>").append(
+        account,
+        $("<td></td>").text(date.isValid() ? date.fromNow() : "Unknown date")
+      ));
+    });
+  }).catch(() => {
+    if (!current()) return;
+    showState("Could not load solves. ");
+    box.find("td").append(
+      $("<button type='button' class='neo-button neo-button-secondary'>Retry</button>")
+        .on("click", () => getSolves(id))
+    );
   });
 }
 
@@ -668,7 +717,7 @@ function getSelfSubmissions(id) {
             .append($("<i>", { class: `fas ${isCorrect ? "fa-check-circle" : "fa-times-circle"} mr-2`, "aria-hidden": "true" }))
             .append(document.createTextNode(result))
         );
-        const value = $("<code>", { class: "submission-value", text: "••••••••••••" });
+        const value = $("<code>", { class: "submission-value", text: "Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢" });
         const reveal = $("<button>", {
           type: "button",
           class: "submission-action",
@@ -685,7 +734,7 @@ function getSelfSubmissions(id) {
 
         reveal.on("click", function() {
           const isVisible = $(this).attr("aria-pressed") === "true";
-          value.text(isVisible ? "••••••••••••" : provided);
+          value.text(isVisible ? "Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢" : provided);
           $(this)
             .attr("aria-pressed", String(!isVisible))
             .attr("aria-label", isVisible ? "Show submission" : "Hide submission")
@@ -846,7 +895,7 @@ function loadChals() {
         .append(chalwrap);
     }
 
-    $(".challenge-button").click(function(_event) {
+    $(".challenge-button").off("click").on("click", function(_event) {
       lastChallengeTrigger = this;
       loadChal(this.value);
     });
@@ -900,7 +949,6 @@ $(() => {
     .off("click.neoChallengeClose")
     .on("click.neoChallengeClose", "[data-dismiss='modal']", function(event) {
       event.preventDefault();
-      event.stopImmediatePropagation();
       challengeWindow.modal("hide");
     });
 

@@ -20,6 +20,12 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.mp3$/i,
+        type: 'asset',
+        parser: { dataUrlCondition: { maxSize: 128 * 1024 } },
+        generator: { dataUrl: { mimetype: 'audio/mpeg' } }
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {

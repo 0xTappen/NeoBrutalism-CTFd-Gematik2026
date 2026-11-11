@@ -1,0 +1,161 @@
+/* Visual finishing layer. Keep page layout and competition controls intact.
+   Copy this source to static/css/neo-polish.{min,dev}.css when editing. */
+:root {
+  --neo-motion-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Clip sideways decoration without creating a scroll ancestor for sticky nav.
+   The existing modal-open overflow lock still takes precedence. */
+body {
+  overflow-x: clip;
+}
+
+.neo-navbar {
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+  z-index: 1020;
+}
+
+@media (max-width: 1199.98px) {
+  .neo-navbar .navbar-collapse.show {
+    max-height: calc(100vh - 5rem);
+    max-height: calc(100dvh - 5rem);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+}
+
+.neo-footer-meta .neo-footer-credit {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .45rem;
+  max-width: 100%;
+  margin-top: .5rem;
+  padding: .5rem .75rem;
+  border: 2px solid var(--neo-yellow);
+  border-radius: 4px;
+  background: #181923;
+  color: var(--neo-yellow);
+  box-shadow: 3px 3px 0 var(--neo-yellow);
+  text-decoration: none;
+  transition: transform 180ms var(--neo-motion-ease), box-shadow 180ms ease,
+    background-color 180ms ease, color 180ms ease;
+}
+
+.neo-footer-credit:focus-visible {
+  outline: 3px solid #fff !important;
+  outline-offset: 6px;
+}
+
+.neo-button,
+.challenge-button,
+.category-filter-button {
+  transition: transform 180ms var(--neo-motion-ease), box-shadow 180ms ease,
+    background-color 180ms ease, border-color 180ms ease;
+}
+
+.neo-navbar .nav-link {
+  text-underline-offset: .35em;
+  text-decoration-thickness: 2px;
+}
+
+.neo-navbar .nav-link:focus-visible {
+  text-decoration: underline;
+}
+
+/* Hover motion is limited to devices with a precise, hovering pointer. */
+@media (hover: hover) and (pointer: fine) {
+  .neo-footer-meta .neo-footer-credit:hover {
+    background: var(--neo-yellow);
+    color: #181923;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--neo-yellow);
+  }
+
+  .neo-navbar .nav-link:hover {
+    text-decoration: underline;
+  }
+
+  .neo-button:not(:disabled):not([aria-disabled="true"]):hover,
+  .challenge-button:not(:disabled):not([aria-disabled="true"]):hover {
+    transform: translate(-3px, -3px);
+    box-shadow: var(--neo-shadow-lg);
+  }
+}
+
+.neo-footer-meta .neo-footer-credit:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+/* Short, staggered entrances; no loops or persistent hidden content. */
+@media (prefers-reduced-motion: no-preference) {
+  .neo-hero .neo-eyebrow,
+  .neo-hero h1,
+  .neo-hero-copy,
+  .neo-hero-actions {
+    animation: neo-polish-enter 480ms var(--neo-motion-ease) backwards;
+  }
+
+  .neo-hero h1 { animation-delay: 40ms; }
+  .neo-hero-copy { animation-delay: 80ms; }
+  .neo-hero-actions { animation-delay: 120ms; }
+
+  .neo-hero-art {
+    animation: neo-polish-poster 600ms var(--neo-motion-ease) 100ms backwards;
+  }
+
+  .neo-card,
+  .challenge-card-wrapper,
+  .notification-card,
+  .settings-panel,
+  .settings-nav {
+    animation-duration: 380ms;
+    animation-timing-function: var(--neo-motion-ease);
+  }
+}
+
+@keyframes neo-polish-enter {
+  from { opacity: .35; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Individual translate preserves the poster's existing rotation. */
+@keyframes neo-polish-poster {
+  from { opacity: .35; translate: 0 16px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neo-hero .neo-eyebrow,
+  .neo-hero h1,
+  .neo-hero-copy,
+  .neo-hero-actions,
+  .neo-hero-art,
+  .neo-card,
+  .challenge-card-wrapper,
+  .podium-place,
+  .notification-card,
+  .settings-panel,
+  .settings-nav,
+  .neo-navbar .nav-link.active {
+    animation: none !important;
+  }
+
+  .neo-button,
+  .challenge-button,
+  .category-filter-button,
+  .theme-toggle,
+  .neo-footer-meta .neo-footer-credit {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .podium-place:hover,
+  .notification-card:hover {
+    transform: none;
+  }
+}

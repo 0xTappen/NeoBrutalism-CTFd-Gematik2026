@@ -58,7 +58,7 @@ const initCompetitionStatus = () => {
   if (start || end) {
     const startText = start ? dateFormatter.format(start) : "Open start";
     const endText = end ? dateFormatter.format(end) : "No end time";
-    schedule.textContent = `${startText} WIB — ${endText} WIB`;
+    schedule.textContent = `${startText} WIB Ã¢â‚¬â€ ${endText} WIB`;
     schedule.hidden = false;
   }
 
@@ -116,11 +116,12 @@ const initThemeMusic = () => {
   const musicUrl = new URL("../../music/theme.mp3", import.meta.url).href;
   const pausePreferenceKey = "gematik-theme-music-paused";
   const positionKey = "gematik-theme-music-position";
-  let isPaused = localStorage.getItem(pausePreferenceKey) === "true";
+  let isPaused = true; // Music is opt-in on each page: no background media download.
   const soundtrack = new Howl({
     src: [musicUrl],
     html5: true,
     autoplay: false,
+    preload: false,
     loop: true,
     volume: 0.28,
     onload() {
@@ -175,7 +176,8 @@ const initThemeMusic = () => {
     } else {
       isPaused = false;
       localStorage.setItem(pausePreferenceKey, "false");
-      soundtrack.play();
+      if (soundtrack.state() === "unloaded") soundtrack.load();
+      else soundtrack.play();
       updateToggle();
     }
   });

@@ -1,19 +1,19 @@
 :root {
-  --neo-blue: #2563eb;
-  --neo-blue-dark: #1d4ed8;
-  --neo-blue-light: #60a5fa;
-  --neo-blue-soft: #dbeafe;
-  --neo-blue-electric: #38bdf8;
+  --neo-blue: #0055ff;
+  --neo-blue-dark: #0000ff;
+  --neo-blue-light: #77aaff;
+  --neo-blue-soft: #cceeff;
+  --neo-blue-electric: #00eeff;
   
-  --neo-black: #111111;
+  --neo-black: #000000;
   --neo-white: #ffffff;
-  --neo-off-white: #f8fafc;
-  --neo-gray: #d1d5db;
-  --neo-gray-dark: #4b5563;
-  --neo-yellow: #facc15;
-  --neo-green: #22c55e;
-  --neo-red: #ef4444;
-  --neo-orange: #fb923c;
+  --neo-off-white: #f4f4f0;
+  --neo-gray: #c0c0c0;
+  --neo-gray-dark: #808080;
+  --neo-yellow: #fff500;
+  --neo-green: #00ff00;
+  --neo-red: #ff0055;
+  --neo-orange: #ff8800;
 
   --neo-page-bg: var(--neo-off-white);
   --neo-surface: var(--neo-white);
@@ -23,12 +23,12 @@
   --neo-outline: var(--neo-black);
   --neo-shadow-color: var(--neo-black);
   
-  --neo-border-width: 3px;
+  --neo-border-width: 4px;
   --neo-border: var(--neo-border-width) solid var(--neo-outline);
   
-  --neo-shadow-sm: 3px 3px 0 var(--neo-shadow-color);
-  --neo-shadow-md: 6px 6px 0 var(--neo-shadow-color);
-  --neo-shadow-lg: 10px 10px 0 var(--neo-shadow-color);
+  --neo-shadow-sm: 4px 4px 0 var(--neo-shadow-color);
+  --neo-shadow-md: 8px 8px 0 var(--neo-shadow-color);
+  --neo-shadow-lg: 12px 12px 0 var(--neo-shadow-color);
   
   --neo-radius: 0px; /* Neo Brutalism typically has hard edges or very slight curves */
   
