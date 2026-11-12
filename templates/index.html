@@ -35,19 +35,25 @@
     <div class="row">
         <div class="col-md-8">
             <h2 class="neo-bold mb-4" style="border-bottom: 4px solid var(--neo-blue); display: inline-block;">COMPETITION STATUS</h2>
-            <div id="competition-status" class="neo-card competition-status-card" data-start='{{ Configs.start | tojson }}' data-end='{{ Configs.end | tojson }}'>
+            <div id="competition-status" class="neo-card competition-status-card">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="m-0 neo-bold">
-                        {% if Configs.start and Configs.end %}
-                            Timeline
-                        {% else %}
-                            Status
-                        {% endif %}
-                    </h3>
+                    <h3 class="m-0 neo-bold">Timeline</h3>
                     <span id="competition-status-badge" class="neo-badge neo-badge-blue">CHECKING</span>
                 </div>
                 <p id="competition-status-message">Checking the competition schedule...</p>
-                <div id="competition-schedule" class="competition-schedule" hidden></div>
+                <div class="competition-schedule" aria-label="Jadwal kompetisi, 21 November 2026 pukul 09.00 sampai 19.00 WIB">
+                    <div class="competition-schedule-stop competition-schedule-start">
+                        <span class="competition-schedule-label">MULAI</span>
+                        <strong>21 November 2026</strong>
+                        <span class="competition-schedule-time">09.00 WIB</span>
+                    </div>
+                    <span class="competition-schedule-arrow" aria-hidden="true">&rarr;</span>
+                    <div class="competition-schedule-stop competition-schedule-end">
+                        <span class="competition-schedule-label">SELESAI</span>
+                        <strong>21 November 2026</strong>
+                        <span class="competition-schedule-time">19.00 WIB</span>
+                    </div>
+                </div>
                 <div id="competition-countdown" class="competition-countdown" hidden aria-live="polite">
                     <span id="competition-countdown-label" class="competition-countdown-label">STARTS IN</span>
                     <div class="countdown-grid">

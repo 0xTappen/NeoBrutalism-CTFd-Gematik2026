@@ -16,7 +16,7 @@ A Neo Brutalism frontend theme for Jeopardy-style CTFd competitions. The theme p
 - Top-three podium and solve matrix on the scoreboard
 - User and team profile pages
 - Themed dropdowns with country search
-- Landing-page countdown based on the CTFd competition schedule
+- Landing-page timeline and countdown for 21 November 2026, 09.00–19.00 WIB
 - Lightweight animations with `prefers-reduced-motion` support
 
 ## Requirements
@@ -156,13 +156,13 @@ docker compose -f ../CTFd-Main/docker-compose.yml restart ctfd
 
 ### Schedule and countdown
 
-The landing-page countdown reads the competition start and end times from CTFd. Configure the schedule in the CTFd admin panel so that the landing page automatically displays one of the following states:
+The landing-page timeline and countdown use 21 November 2026, 09.00–19.00 WIB. The page automatically displays one of the following states:
 
 - A countdown before the event starts
 - Main event while the competition is running
 - Event ended after the competition finishes
 
-Make sure the server timezone and CTFd configuration match the competition timezone.
+Set the same start and end times separately in the CTFd admin panel to control actual challenge availability and competition behavior. The theme schedule only controls the landing-page display.
 
 ### Challenge categories
 

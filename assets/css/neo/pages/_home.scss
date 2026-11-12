@@ -56,10 +56,59 @@ body:has(#competition-status) main[role="main"] {
 }
 
 .competition-schedule {
-  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin: 1.25rem 0 0.85rem;
+}
+
+.competition-schedule-stop {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--neo-outline);
+  background: var(--neo-surface-raised);
+  box-shadow: var(--neo-shadow-sm);
+
+  strong {
+    color: var(--neo-text);
+    font-size: 0.95rem;
+  }
+}
+
+.competition-schedule-start {
+  border-left: 5px solid var(--neo-blue);
+}
+
+.competition-schedule-end {
+  border-left: 5px solid var(--neo-yellow);
+}
+
+.competition-schedule-label {
   color: var(--neo-muted);
-  font-size: 0.8rem;
-  font-weight: 800;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.competition-schedule-time {
+  color: var(--neo-blue-dark);
+  font-family: var(--neo-display-font);
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.competition-schedule-arrow {
+  align-self: center;
+  color: var(--neo-text);
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
+.competition-countdown[hidden] {
+  display: none;
 }
 
 .competition-meta {
@@ -71,6 +120,14 @@ body:has(#competition-status) main[role="main"] {
 }
 
 @media (max-width: 575.98px) {
+  .competition-schedule {
+    flex-direction: column;
+  }
+
+  .competition-schedule-arrow {
+    transform: rotate(90deg);
+  }
+
   .countdown-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

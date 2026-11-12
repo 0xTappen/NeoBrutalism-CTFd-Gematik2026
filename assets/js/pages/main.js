@@ -31,36 +31,8 @@ const initCompetitionStatus = () => {
   const message = document.querySelector("#competition-status-message");
   const countdown = document.querySelector("#competition-countdown");
   const countdownLabel = document.querySelector("#competition-countdown-label");
-  const schedule = document.querySelector("#competition-schedule");
-  const parseDate = value => {
-    if (!value || value === "null") return null;
-    try {
-      const parsed = JSON.parse(value);
-      const date = new Date(parsed);
-      return Number.isNaN(date.getTime()) ? null : date;
-    } catch (_error) {
-      return null;
-    }
-  };
-  const configuredStart = parseDate(card.dataset.start);
-  const configuredEnd = parseDate(card.dataset.end);
-  const fallbackStart = new Date("2026-10-25T08:00:00+07:00");
-  const fallbackEnd = new Date("2026-10-25T20:00:00+07:00");
-  const hasConfiguredSchedule = Boolean(configuredStart || configuredEnd);
-  const start = hasConfiguredSchedule ? configuredStart : fallbackStart;
-  const end = hasConfiguredSchedule ? configuredEnd : fallbackEnd;
-  const dateFormatter = new Intl.DateTimeFormat("id-ID", {
-    dateStyle: "long",
-    timeStyle: "short",
-    timeZone: "Asia/Jakarta"
-  });
-
-  if (start || end) {
-    const startText = start ? dateFormatter.format(start) : "Open start";
-    const endText = end ? dateFormatter.format(end) : "No end time";
-    schedule.textContent = `${startText} WIB Ã¢â‚¬â€ ${endText} WIB`;
-    schedule.hidden = false;
-  }
+  const start = new Date("2026-11-21T09:00:00+07:00");
+  const end = new Date("2026-11-21T19:00:00+07:00");
 
   const render = () => {
     const now = new Date();
