@@ -5,6 +5,7 @@ A Neo Brutalism frontend theme for Jeopardy-style CTFd competitions. The theme p
 ## Features
 
 - Responsive Neo Brutalism interface
+- Scrolling competition category ticker with reduced-motion support
 - Light and dark modes with persistent preferences
 - Desktop and mobile navigation
 - Language selector connected to CTFd language settings
@@ -173,6 +174,7 @@ Categories are not hardcoded in the theme. Challenge filters and the solve matri
 - Reverse Engineering
 - Cryptography
 - Forensics
+- Geosint
 - Miscellaneous
 
 ### Challenge and scoreboard visibility

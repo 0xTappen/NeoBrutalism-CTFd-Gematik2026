@@ -396,10 +396,10 @@
 		var team_captain = {{ (user.id == team.captain_id) | tojson }};
 	</script>
 	{% if solves or awards %}
-		<script defer src="{{ url_for('views.themes', path='js/pages/stats.js', v='20260717-optimized-stats') }}"></script>
+		<script defer src="{{ url_for('views.themes', path='js/pages/stats.js', v='20261112-geosint') }}"></script>
 	{% endif %}
 {% endblock %}
 
 {% block entrypoint %}
-	<script defer src="{{ url_for('views.themes', path='js/pages/teams/private.js', v='20260717-themed-selects') }}"></script>
+	<script defer src="{{ url_for('views.themes', path='js/pages/teams/private.js', v='20261112-geosint') }}"></script>
 {% endblock %}

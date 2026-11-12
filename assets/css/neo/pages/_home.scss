@@ -1,3 +1,48 @@
+.neo-category-marquee {
+  overflow: hidden;
+  padding: 0.9rem 0;
+  font: 800 0.8rem monospace;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.neo-category-track,
+.neo-category-group {
+  display: flex;
+  width: max-content;
+}
+
+.neo-category-track {
+  animation: neo-category-scroll 30s linear infinite;
+}
+
+.neo-category-group {
+  flex: none;
+  align-items: center;
+  gap: 2rem;
+  padding-right: 2rem;
+}
+
+.neo-category-group span::before {
+  content: "✦";
+  margin-right: 0.75rem;
+  color: var(--neo-blue);
+}
+
+.neo-category-marquee:hover .neo-category-track {
+  animation-play-state: paused;
+}
+
+@keyframes neo-category-scroll {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neo-category-marquee { overflow-x: auto; }
+  .neo-category-track { animation: none; }
+  .neo-category-group[aria-hidden="true"] { display: none; }
+}
+
 .competition-status-card {
   margin-bottom: 1rem;
 }

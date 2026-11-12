@@ -16,6 +16,7 @@ export function getCategoryIcon(category) {
     { aliases: ["rev", "reverse", "reversing", "reverse engineering"], icon: "fa-microchip" },
     { aliases: ["crypto", "crypt", "cryptography"], icon: "fa-key" },
     { aliases: ["forensic", "forensics", "dfir"], icon: "fa-search" },
+    { aliases: ["geosint", "geoint", "geolocation"], icon: "fa-map-marker-alt" },
     { aliases: ["osint", "open source intelligence"], icon: "fa-eye" },
     { aliases: ["steg", "stego", "steganography"], icon: "fa-image" },
     { aliases: ["mobile", "android", "ios"], icon: "fa-mobile-alt" },
